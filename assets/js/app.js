@@ -27,7 +27,7 @@ const shuffle = (array) => {
 async function fetchQuestions() {
   const response = await fetch(apiURL);
   const questions = await response.json();
-  // console.log(questions);
+  console.log(questions);
   return questions;
 }
 
@@ -52,32 +52,37 @@ async function startGame() {
           </div>
         </div>
         <div class="answerBox">
-          <button class="answerA" onclick="checkAns()">${answers[0]}</button>
-          <button class="answerB" onclick="checkAns()">${answers[1]}</button>
-          <button class="answerC" onclick="checkAns()">${answers[2]}</button>
-          <button class="answerD" onclick="checkAns()">${answers[3]}</button>
+          <button id="answerBtn" class="answerA" onclick="checkAns()">${answers[0]}</button>
+          <button id="answerBtn" class="answerB" onclick="checkAns()">${answers[1]}</button>
+          <button id="answerBtn" class="answerC" onclick="checkAns()">${answers[2]}</button>
+          <button id="answerBtn" class="answerD" onclick="checkAns()">${answers[3]}</button>
         </div>
         <span id="score">0 / 10</span>
       </div>
       `;
   app.innerHTML = html;
-
+  // const answerBtn = document.getElementById("answerBtn");
+  // answerBtn.addEventListener("click", checkAns, false);
   checkAns = () => {
-    result = document.getElementById("result");
-    scoreresult = document.getElementById("score");
+    const result = document.getElementById("result");
+    const scoreresult = document.getElementById("score");
+
     if (
       document.activeElement.innerHTML === questions.results[id].correct_answer
     ) {
-      document.activeElement.style.background = "green";
+      document.activeElement.style.background = "#00FF73";
       result.innerHTML = "Correct!";
       score++;
+      // event.preventDefault();
       scoreresult.innerHTML = `${score} / ${questions.results.length}`;
+
       setTimeout(() => {
         nextQuestion();
       }, 1500);
     } else {
-      document.activeElement.style.background = "red";
+      document.activeElement.style.background = "#FF6565";
       result.innerHTML = "Wrong!";
+      // event.preventDefault();
       setTimeout(() => {
         nextQuestion();
       }, 1500);
@@ -100,10 +105,10 @@ async function startGame() {
         </div>
       </div>
       <div class="answerBox">
-        <button class="answerA" onclick="checkAns()">${answers[0]}</button>
-        <button class="answerB" onclick="checkAns()">${answers[1]}</button>
-        <button class="answerC" onclick="checkAns()">${answers[2]}</button>
-        <button class="answerD" onclick="checkAns()">${answers[3]}</button>
+        <button id="answerBtn" class="answerA" onclick="checkAns()">${answers[0]}</button>
+        <button id="answerBtn" class="answerB" onclick="checkAns()">${answers[1]}</button>
+        <button id="answerBtn" class="answerC" onclick="checkAns()">${answers[2]}</button>
+        <button id="answerBtn" class="answerD" onclick="checkAns()">${answers[3]}</button>
       </div>
       <span id="score">${score} / ${questions.results.length}</span>
     </div>
@@ -112,12 +117,7 @@ async function startGame() {
     console.log(id);
 
     if (id === 9) {
-      setTimeout(() => {
-        app.innerHTML = `
-        
-        ${score} of ${questions.results.length}
-        `;
-      }, 1000);
+      app.innerHTML = `You got ${score} of ${questions.results.length} answers correct.`;
     }
   }
 }
