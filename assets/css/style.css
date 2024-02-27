@@ -26,7 +26,7 @@ body {
 }
 
 .titleText {
-  font-size: 4em;
+  font-size: 3em;
   font-weight: 900;
 }
 
@@ -107,9 +107,16 @@ button {
 }
 
 #startBtn {
-  font-size: 2.5em;
-  background-color: #f45d01;
+  font-size: 2em;
+  background-color: #00ff73;
   border-radius: 0.3em;
+}
+
+#retry {
+  margin-top: 1em;
+  border-radius: 0.3em;
+  font-size: 1.2em;
+  background: none;
 }
 
 .answerA::before {

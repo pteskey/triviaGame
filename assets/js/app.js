@@ -117,7 +117,9 @@ async function startGame() {
     console.log(id);
 
     if (id === 9) {
-      app.innerHTML = `You got ${score} of ${questions.results.length} answers correct.`;
+      app.innerHTML = `<h3>You got ${score} of ${questions.results.length} answers correct.</h3>
+      <button id="retry" onclick="location.reload()">Try Again</button>
+      `;
     }
   }
 }
