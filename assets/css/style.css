@@ -1,0 +1,93 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+/* Layout */
+
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  width: 20em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.triviaContainer {
+  display: flex;
+  flex-direction: column;
+  width: 22em;
+  border: 2px solid black;
+}
+
+.questionBox {
+  margin: 1em;
+}
+
+.answerBox {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+}
+
+.answerBox button {
+  padding: 0.5em;
+  margin-bottom: 1em;
+  border: 1px solid black;
+  cursor: pointer;
+  text-align: left;
+}
+
+.answerBox button:last-child {
+  margin-bottom: 0;
+}
+
+#result {
+  position: absolute;
+  top: 4em;
+  align-self: center;
+  font-size: 2em;
+}
+
+#score {
+  align-self: center;
+  margin-bottom: 1em;
+}
+
+/* Buttons */
+
+button {
+  outline: none;
+  border: solid 1px black;
+  padding: 0.5em;
+}
+
+#easy:focus,
+#medium:focus,
+#hard:focus {
+  background-color: green;
+}
+
+.answerA::before {
+  content: "A. ";
+}
+
+.answerB::before {
+  content: "B. ";
+}
+
+.answerC::before {
+  content: "C. ";
+}
+
+.answerD::before {
+  content: "D. ";
+}
