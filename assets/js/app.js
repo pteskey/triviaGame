@@ -1,17 +1,47 @@
-// Functions for difficulty select
-let apiURL = "https://opentdb.com/api.php?amount=10&type=multiple";
+let difficulty = "easy";
+let questionAmount = 10;
+const categories = "https://opentdb.com/api_category.php";
 
+// Functions for difficulty select
 function selectEasy() {
-  return (apiURL =
-    "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple");
+  return (difficulty = "easy");
 }
 function selectMed() {
-  return (apiURL =
-    "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple");
+  return (difficulty = "medium");
 }
 function selectHard() {
-  return (apiURL =
-    "https://opentdb.com/api.php?amount=10&difficulty=hard&type=multiple");
+  return (difficulty = "hard");
+}
+
+// Functions for question
+function amount10() {
+  return (questionAmount = 10);
+}
+function amount15() {
+  return (questionAmount = 15);
+}
+function amount20() {
+  return (questionAmount = 20);
+}
+
+async function fetchCategories() {
+  const response = await fetch(categories);
+  const categorydata = await response.json();
+  console.log(categorydata);
+  return categorydata;
+}
+
+async function populateCategories() {
+  const data = await fetchCategories();
+  const selectElement = document.getElementById("categories");
+
+  // Loop through the optionsData and append options to the select element
+  for (let i = 0; i < data.trivia_categories.length; i++) {
+    const option = document.createElement("option");
+    option.value = data.trivia_categories[i].id;
+    option.text = data.trivia_categories[i].name;
+    selectElement.appendChild(option);
+  }
 }
 
 // Function to Shuffle an Array
@@ -25,6 +55,8 @@ const shuffle = (array) => {
 
 // Fetch for question data
 async function fetchQuestions() {
+  const select = document.getElementById("categories");
+  let apiURL = `https://opentdb.com/api.php?amount=${questionAmount}&category=${select.value}&difficulty=${difficulty}&type=multiple`;
   const response = await fetch(apiURL);
   const questions = await response.json();
   console.log(questions);
@@ -44,7 +76,7 @@ async function startGame() {
   shuffle(answers);
 
   html += `
-      <span id="result"></span>
+      
       <div class="triviaContainer">
         <div class="questionBox">
           <div class="question">
@@ -57,12 +89,12 @@ async function startGame() {
           <button id="answerBtn" class="answerC" onclick="checkAns()">${answers[2]}</button>
           <button id="answerBtn" class="answerD" onclick="checkAns()">${answers[3]}</button>
         </div>
-        <span id="score">0 / 10</span>
+        <span id="score">0 / ${questionAmount}</span>
       </div>
+      <span id="result"></span>
       `;
   app.innerHTML = html;
-  // const answerBtn = document.getElementById("answerBtn");
-  // answerBtn.addEventListener("click", checkAns, false);
+
   checkAns = () => {
     const result = document.getElementById("result");
     const scoreresult = document.getElementById("score");
@@ -73,7 +105,6 @@ async function startGame() {
       document.activeElement.style.background = "#00FF73";
       result.innerHTML = "Correct!";
       score++;
-      // event.preventDefault();
       scoreresult.innerHTML = `${score} / ${questions.results.length}`;
 
       setTimeout(() => {
@@ -82,7 +113,6 @@ async function startGame() {
     } else {
       document.activeElement.style.background = "#FF6565";
       result.innerHTML = "Wrong!";
-      // event.preventDefault();
       setTimeout(() => {
         nextQuestion();
       }, 1500);
@@ -97,7 +127,6 @@ async function startGame() {
     );
     shuffle(answers);
     html += `
-    <span id="result"></span>
     <div class="triviaContainer">
       <div class="questionBox">
         <div class="question">
@@ -112,14 +141,17 @@ async function startGame() {
       </div>
       <span id="score">${score} / ${questions.results.length}</span>
     </div>
+    <span id="result"></span>
     `;
     app.innerHTML = html;
     console.log(id);
 
-    if (id === 9) {
+    if (id === questionAmount - 1) {
       app.innerHTML = `<h3>You got ${score} of ${questions.results.length} answers correct.</h3>
       <button id="retry" onclick="location.reload()">Try Again</button>
       `;
     }
   }
 }
+
+populateCategories();
