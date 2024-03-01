@@ -1,7 +1,3 @@
-import Ajv from "/ajv";
-const ajv = new Ajv();
-import fs from "/fs";
-
 // Some default variables for game options
 let difficulty = "easy";
 let questionAmount = 10;
@@ -29,27 +25,6 @@ amount20 = () => {
   return (questionAmount = 20);
 };
 
-// Fetch and populate categories
-
-// async function fetchCategories() {
-//   const response = await fetch(categories);
-//   const categorydata = await response.json();
-//   return categorydata;
-// }
-
-// async function populateCategories() {
-//   const data = await fetchCategories();
-//   const selectElement = document.getElementById("categories");
-
-//   // Loop through the categoryData and append options to the select element
-//   for (let i = 0; i < data.trivia_categories.length; i++) {
-//     const option = document.createElement("option");
-//     option.value = data.trivia_categories[i].id;
-//     option.text = data.trivia_categories[i].name;
-//     selectElement.appendChild(option);
-//   }
-// }
-
 // Function to Shuffle an Array
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -61,7 +36,6 @@ const shuffle = (array) => {
 
 // Fetch question data
 async function fetchQuestions() {
-  // const select = document.getElementById("categories");
   let apiURL = `https://opentdb.com/api.php?amount=${questionAmount}&difficulty=${difficulty}&type=multiple`;
   const response = await fetch(apiURL);
   const questions = await response.json();
@@ -70,39 +44,25 @@ async function fetchQuestions() {
 }
 
 startGame = async () => {
-  //Write to Database function
-  function writeDb(jsonData) {
-    // Validate the JSON data against the schema
-    const isValid = ajv.validate(schema, jsonData);
-
-    if (isValid) {
-      // Proceed with writing the data to the database
-      fs.writeFileSync("./database/db.json", JSON.stringify(jsonData, null, 2));
-      console.log("Data written to the database successfully.");
-    } else {
-      console.error("Validation error:", ajv.errors);
-      // Handle the case where the data does not conform to the schema
-    }
-  }
-  // Defining schema for JSON data
-  const schema = {
-    $schema: "http://json-schema.org/draft-07/schema#",
-    type: "object",
-    properties: {
-      questions: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            correctlyAnswered: { type: "boolean" },
-            category: { type: "string" },
-            difficulty: { type: "string" },
-          },
-          required: ["correctlyAnswered", "category", "difficulty"],
-        },
+// Send data to the server
+async function sendDataToDatabase(data) {
+  console.log('Sending data:', data); // Log the data before sending it
+  const response = await fetch('http://localhost:3000/api/data', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
       },
-    },
-  };
+      body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+      const errorData = await response.json(); // Try to parse the error response
+      console.error('Error response:', errorData); // Log the error response
+      throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
+}
 
   //Default variables
   const app = document.querySelector("#app");
@@ -146,27 +106,27 @@ startGame = async () => {
           {
             correctlyAnswered: true,
             category: `${questions.results[id].category}`,
-            difficulty: `${questions.results.difficulty}`,
+            difficulty: `${questions.results[id].difficulty}`,
           },
         ],
       };
-
-      writeDb(correctWrite);
+      sendDataToDatabase(correctWrite);
       setTimeout(() => {
         nextQuestion();
       }, 1000);
     } else {
       selectedChoice.style.backgroundColor = "#FF6565";
+      
       const incorrectWrite = {
         questions: [
           {
             correctlyAnswered: false,
             category: `${questions.results[id].category}`,
-            difficulty: `${questions.results.difficulty}`,
+            difficulty: `${questions.results[id].difficulty}`,
           },
         ],
       };
-      writeDb(incorrectWrite);
+      sendDataToDatabase(incorrectWrite);
       setTimeout(() => {
         nextQuestion();
       }, 1000);
@@ -216,4 +176,24 @@ startGame = async () => {
   };
 };
 
+// Fetch and populate categories
+
+// async function fetchCategories() {
+//   const response = await fetch(categories);
+//   const categorydata = await response.json();
+//   return categorydata;
+// }
+
+// async function populateCategories() {
+//   const data = await fetchCategories();
+//   const selectElement = document.getElementById("categories");
+
+//   // Loop through the categoryData and append options to the select element
+//   for (let i = 0; i < data.trivia_categories.length; i++) {
+//     const option = document.createElement("option");
+//     option.value = data.trivia_categories[i].id;
+//     option.text = data.trivia_categories[i].name;
+//     selectElement.appendChild(option);
+//   }
+// }
 // populateCategories();
