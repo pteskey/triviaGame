@@ -1,0 +1,14 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "correctlyAnswered": true,
+      "category": "Science"
+    },
+    {
+      "id": 2,
+      "correctlyAnswered": false,
+      "category": "History"
+    }
+  ]
+}

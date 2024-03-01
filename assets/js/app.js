@@ -1,47 +1,54 @@
+import Ajv from "/ajv";
+const ajv = new Ajv();
+import fs from "/fs";
+
+// Some default variables for game options
 let difficulty = "easy";
 let questionAmount = 10;
 const categories = "https://opentdb.com/api_category.php";
 
 // Functions for difficulty select
-function selectEasy() {
+selectEasy = () => {
   return (difficulty = "easy");
-}
-function selectMed() {
+};
+selectMed = () => {
   return (difficulty = "medium");
-}
-function selectHard() {
+};
+selectHard = () => {
   return (difficulty = "hard");
-}
+};
 
 // Functions for amount of questions
-function amount10() {
+amount10 = () => {
   return (questionAmount = 10);
-}
-function amount15() {
+};
+amount15 = () => {
   return (questionAmount = 15);
-}
-function amount20() {
+};
+amount20 = () => {
   return (questionAmount = 20);
-}
+};
 
-async function fetchCategories() {
-  const response = await fetch(categories);
-  const categorydata = await response.json();
-  return categorydata;
-}
+// Fetch and populate categories
 
-async function populateCategories() {
-  const data = await fetchCategories();
-  const selectElement = document.getElementById("categories");
+// async function fetchCategories() {
+//   const response = await fetch(categories);
+//   const categorydata = await response.json();
+//   return categorydata;
+// }
 
-  // Loop through the categoryData and append options to the select element
-  for (let i = 0; i < data.trivia_categories.length; i++) {
-    const option = document.createElement("option");
-    option.value = data.trivia_categories[i].id;
-    option.text = data.trivia_categories[i].name;
-    selectElement.appendChild(option);
-  }
-}
+// async function populateCategories() {
+//   const data = await fetchCategories();
+//   const selectElement = document.getElementById("categories");
+
+//   // Loop through the categoryData and append options to the select element
+//   for (let i = 0; i < data.trivia_categories.length; i++) {
+//     const option = document.createElement("option");
+//     option.value = data.trivia_categories[i].id;
+//     option.text = data.trivia_categories[i].name;
+//     selectElement.appendChild(option);
+//   }
+// }
 
 // Function to Shuffle an Array
 const shuffle = (array) => {
@@ -54,26 +61,60 @@ const shuffle = (array) => {
 
 // Fetch question data
 async function fetchQuestions() {
-  const select = document.getElementById("categories");
-  let apiURL = `https://opentdb.com/api.php?amount=${questionAmount}&category=${select.value}&difficulty=${difficulty}&type=multiple`;
+  // const select = document.getElementById("categories");
+  let apiURL = `https://opentdb.com/api.php?amount=${questionAmount}&difficulty=${difficulty}&type=multiple`;
   const response = await fetch(apiURL);
   const questions = await response.json();
+  console.log(questions);
   return questions;
 }
 
-async function startGame() {
-  let app = document.querySelector("#app");
+startGame = async () => {
+  //Write to Database function
+  function writeDb(jsonData) {
+    // Validate the JSON data against the schema
+    const isValid = ajv.validate(schema, jsonData);
+
+    if (isValid) {
+      // Proceed with writing the data to the database
+      fs.writeFileSync("./database/db.json", JSON.stringify(jsonData, null, 2));
+      console.log("Data written to the database successfully.");
+    } else {
+      console.error("Validation error:", ajv.errors);
+      // Handle the case where the data does not conform to the schema
+    }
+  }
+  // Defining schema for JSON data
+  const schema = {
+    $schema: "http://json-schema.org/draft-07/schema#",
+    type: "object",
+    properties: {
+      questions: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            correctlyAnswered: { type: "boolean" },
+            category: { type: "string" },
+            difficulty: { type: "string" },
+          },
+          required: ["correctlyAnswered", "category", "difficulty"],
+        },
+      },
+    },
+  };
+
+  //Default variables
+  const app = document.querySelector("#app");
   let html = "";
   let id = 0;
   let score = 0;
-
   const questions = await fetchQuestions();
   const answers = questions.results[id].incorrect_answers.concat(
     questions.results[id].correct_answer
   );
-
   shuffle(answers);
-
+  // Template for Trivia questions and answers
   html += `
   <div class="triviaContainer fade-in">
   <div class="questionBox">
@@ -85,7 +126,6 @@ async function startGame() {
     <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
     <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
   </div>
-  <span id="score">${score} / ${questions.results.length}</span>
   </div>
 <span id="result"></span>
       `;
@@ -93,39 +133,57 @@ async function startGame() {
 
   let answered = false;
   checkAnswer = (selectedChoice) => {
-    // Get the correct answer (you might fetch this from your data)
     let correctAnswer = `${questions.results[id].correct_answer}`;
-    const scoreresult = document.getElementById("score");
     if (answered) {
       return;
     }
     // Check if the selected answer is correct
     if (selectedChoice.innerText === correctAnswer) {
-      // Correct answer: Change background color to green
       selectedChoice.style.backgroundColor = "#00FF73";
       score++;
-      scoreresult.innerHTML = `${score} / ${questions.results.length}`;
+      const correctWrite = {
+        questions: [
+          {
+            correctlyAnswered: true,
+            category: `${questions.results[id].category}`,
+            difficulty: `${questions.results.difficulty}`,
+          },
+        ],
+      };
+
+      writeDb(correctWrite);
       setTimeout(() => {
         nextQuestion();
       }, 1000);
     } else {
-      // Wrong answer: Change background color to red
       selectedChoice.style.backgroundColor = "#FF6565";
+      const incorrectWrite = {
+        questions: [
+          {
+            correctlyAnswered: false,
+            category: `${questions.results[id].category}`,
+            difficulty: `${questions.results.difficulty}`,
+          },
+        ],
+      };
+      writeDb(incorrectWrite);
       setTimeout(() => {
         nextQuestion();
       }, 1000);
-      // Optionally, you might want to highlight the correct answer as well
-      var choices = document.getElementsByClassName("answer");
-      for (var i = 0; i < choices.length; i++) {
+      // Option to highlight correct answer if you chose wrong
+      let choices = document.getElementsByClassName("answer");
+      for (let i = 0; i < choices.length; i++) {
         if (choices[i].innerText === correctAnswer) {
           choices[i].style.backgroundColor = "#00FF73";
         }
       }
     }
+    //Lockout anymore clicking
     answered = true;
   };
 
   nextQuestion = () => {
+    //Reset answer status
     answered = false;
     id++;
     let html = "";
@@ -144,7 +202,6 @@ async function startGame() {
       <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
       <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
     </div>
-    <span id="score">${score} / ${questions.results.length}</span>
   </div>
   <span id="result"></span>
     `;
@@ -157,6 +214,6 @@ async function startGame() {
       `;
     }
   };
-}
+};
 
-populateCategories();
+// populateCategories();
