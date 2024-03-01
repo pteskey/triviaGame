@@ -109,7 +109,7 @@ select:focus + .focus {
 }
 
 .title {
-  width: 30em;
+  width: 25em;
   margin-top: 1em;
   display: flex;
   flex-direction: column;
@@ -120,22 +120,30 @@ select:focus + .focus {
 .titleText {
   font-size: 3em;
   font-weight: 900;
+  margin-bottom: 0.5em;
 }
 
 .options {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
 }
 
-.difficultySelect {
+.aligntext {
+  align-self: center;
+  margin-bottom: 0.5em;
+}
+
+.difficultyBtns {
   display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 1em;
 }
 
 .questionAmount {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin-bottom: 1em;
 }
 
@@ -198,6 +206,7 @@ button {
   outline: none;
   font-weight: bold;
   border: solid 1px black;
+  width: 5.3em;
   padding: 0.5em;
   cursor: pointer;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
@@ -215,26 +224,24 @@ button {
 
 .difficultyBtns button:hover {
   transition: 200ms ease-in;
-  transform: translateY(-8px);
-  background-color: #00ff73;
 }
 
 #easy:focus,
 #easy:hover {
   background-color: #00ff73;
-  transform: translateY(-8px);
+  transform: translateY(-5px);
 }
 
 #medium:focus,
 #medium:hover {
   background-color: #f6ff00;
-  transform: translateY(-8px);
+  transform: translateY(-5px);
 }
 
 #hard:focus,
 #hard:hover {
   background-color: #ff1500;
-  transform: translateY(-8px);
+  transform: translateY(-5px);
 }
 
 .questionAmount button {
@@ -248,7 +255,7 @@ button {
 
 .questionAmount button:hover {
   transition: 200ms ease-in;
-  transform: translateY(-8px);
+  transform: translateY(-5px);
   background-color: #00ff73;
 }
 
@@ -268,6 +275,11 @@ button {
   font-size: 1.5em;
   background-color: #00ff73;
   border-radius: 0.3em;
+  transition: 150ms ease-in-out;
+}
+
+#startBtn:hover {
+  transform: scale(120%);
 }
 
 #retry {

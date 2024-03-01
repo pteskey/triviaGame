@@ -20,20 +20,20 @@
         <h1 class="titleText">Trivia Challenge</h1>
 
         <div class="options">
-          <div class="difficultySelect">
-            <div class="difficultyBtns">
-              <button onclick="selectEasy()" id="easy">Easy</button>
-              <button onclick="selectMed()" id="medium">Medium</button>
-              <button onclick="selectHard()" id="hard">Hard</button>
-            </div>
+          <span class="aligntext">Select Difficulty</span>
+          <div class="difficultyBtns">
+            <button onclick="selectEasy()" id="easy">Easy</button>
+            <button onclick="selectMed()" id="medium">Medium</button>
+            <button onclick="selectHard()" id="hard">Hard</button>
           </div>
+          <span class="aligntext">Select amount of Questions</span>
           <div class="questionAmount">
             <button onclick="amount10()">10</button>
             <button onclick="amount15()">15</button>
             <button onclick="amount20()">20</button>
           </div>
         </div>
-        <label for="categories">Select a Category</label>
+        <label for="categories" class="aligntext">Select a Category</label>
         <div class="select">
           <select id="categories"></select>
           <span class="focus"></span>
