@@ -6,6 +6,7 @@
 
 body {
   font-family: "Roboto", sans-serif;
+  height: 100%;
 }
 
 /* Animations */
@@ -95,8 +96,7 @@ select:focus + .focus {
 /* Layout */
 
 .wrapper {
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -105,7 +105,6 @@ select:focus + .focus {
   opacity: 0.8;
   background-image: radial-gradient(#7e7e7e 0.5px, #e5e5f7 0.5px);
   background-size: 10px 10px;
-  padding-top: 2em;
 }
 
 .title {
