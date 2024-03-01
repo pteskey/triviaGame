@@ -6,7 +6,33 @@
 
 body {
   font-family: "Roboto", sans-serif;
-  overflow: hidden;
+}
+
+/* Animations */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 500ms ease-out;
+}
+.fade-out {
+  animation: fadeOut 500ms ease-in;
 }
 
 /* Select menu styling */
@@ -79,6 +105,7 @@ select:focus + .focus {
   opacity: 0.8;
   background-image: radial-gradient(#7e7e7e 0.5px, #e5e5f7 0.5px);
   background-size: 10px 10px;
+  padding-top: 2em;
 }
 
 .title {
@@ -95,11 +122,20 @@ select:focus + .focus {
   font-weight: 900;
 }
 
+.options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 .difficultySelect {
-  padding: 1em;
+  display: flex;
 }
 
 .questionAmount {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   margin-bottom: 1em;
 }
 
@@ -108,10 +144,21 @@ select:focus + .focus {
   flex-direction: column;
   width: 22em;
   border: 2px solid black;
+  transition: 200ms ease-in-out;
 }
 
 .questionBox {
-  margin: 1em;
+  margin: 1em 1em 0 1em;
+}
+
+.questionBox div {
+  padding: 0.5em;
+  margin-bottom: 1em;
+  border: 1px solid black;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .answerBox {
@@ -120,15 +167,17 @@ select:focus + .focus {
   margin: 1em;
 }
 
-.answerBox button {
+.answerBox div {
   padding: 0.5em;
   margin-bottom: 1em;
   border: 1px solid black;
   cursor: pointer;
   text-align: left;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
-.answerBox button:last-child {
+.answerBox div:last-child {
   margin-bottom: 0;
 }
 
@@ -147,6 +196,7 @@ select:focus + .focus {
 
 button {
   outline: none;
+  font-weight: bold;
   border: solid 1px black;
   padding: 0.5em;
   cursor: pointer;
@@ -165,26 +215,26 @@ button {
 
 .difficultyBtns button:hover {
   transition: 200ms ease-in;
-  transform: translateY(-12px);
+  transform: translateY(-8px);
   background-color: #00ff73;
 }
 
 #easy:focus,
 #easy:hover {
   background-color: #00ff73;
-  transform: translateY(-12px);
+  transform: translateY(-8px);
 }
 
 #medium:focus,
 #medium:hover {
   background-color: #f6ff00;
-  transform: translateY(-12px);
+  transform: translateY(-8px);
 }
 
 #hard:focus,
 #hard:hover {
   background-color: #ff1500;
-  transform: translateY(-12px);
+  transform: translateY(-8px);
 }
 
 .questionAmount button {
@@ -198,8 +248,19 @@ button {
 
 .questionAmount button:hover {
   transition: 200ms ease-in;
-  transform: translateY(-12px);
+  transform: translateY(-8px);
   background-color: #00ff73;
+}
+
+.triviaContainer button {
+  font-family: inherit;
+  outline: none;
+  border: solid 1px black;
+  padding: 0.5em;
+  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  margin: 0 1em 1em 1em;
 }
 
 #startBtn {
@@ -216,18 +277,15 @@ button {
   background: none;
 }
 
-.answerA::before {
-  content: "A. ";
+.answerBox div:nth-child(1)::before {
+  content: "A.  ";
 }
-
-.answerB::before {
-  content: "B. ";
+.answerBox div:nth-child(2)::before {
+  content: "B.  ";
 }
-
-.answerC::before {
-  content: "C. ";
+.answerBox div:nth-child(3)::before {
+  content: "C.  ";
 }
-
-.answerD::before {
-  content: "D. ";
+.answerBox div:nth-child(4)::before {
+  content: "D.  ";
 }

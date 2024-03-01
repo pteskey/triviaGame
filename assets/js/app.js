@@ -13,7 +13,7 @@ function selectHard() {
   return (difficulty = "hard");
 }
 
-// Functions for question
+// Functions for amount of questions
 function amount10() {
   return (questionAmount = 10);
 }
@@ -27,7 +27,6 @@ function amount20() {
 async function fetchCategories() {
   const response = await fetch(categories);
   const categorydata = await response.json();
-  console.log(categorydata);
   return categorydata;
 }
 
@@ -35,7 +34,7 @@ async function populateCategories() {
   const data = await fetchCategories();
   const selectElement = document.getElementById("categories");
 
-  // Loop through the optionsData and append options to the select element
+  // Loop through the categoryData and append options to the select element
   for (let i = 0; i < data.trivia_categories.length; i++) {
     const option = document.createElement("option");
     option.value = data.trivia_categories[i].id;
@@ -53,13 +52,12 @@ const shuffle = (array) => {
   return array;
 };
 
-// Fetch for question data
+// Fetch question data
 async function fetchQuestions() {
   const select = document.getElementById("categories");
   let apiURL = `https://opentdb.com/api.php?amount=${questionAmount}&category=${select.value}&difficulty=${difficulty}&type=multiple`;
   const response = await fetch(apiURL);
   const questions = await response.json();
-  console.log(questions);
   return questions;
 }
 
@@ -68,6 +66,7 @@ async function startGame() {
   let html = "";
   let id = 0;
   let score = 0;
+
   const questions = await fetchQuestions();
   const answers = questions.results[id].incorrect_answers.concat(
     questions.results[id].correct_answer
@@ -76,50 +75,58 @@ async function startGame() {
   shuffle(answers);
 
   html += `
-      
-      <div class="triviaContainer">
-        <div class="questionBox">
-          <div class="question">
-            ${questions.results[id].question}
-          </div>
-        </div>
-        <div class="answerBox">
-          <button id="answerBtn" class="answerA" onclick="checkAns()">${answers[0]}</button>
-          <button id="answerBtn" class="answerB" onclick="checkAns()">${answers[1]}</button>
-          <button id="answerBtn" class="answerC" onclick="checkAns()">${answers[2]}</button>
-          <button id="answerBtn" class="answerD" onclick="checkAns()">${answers[3]}</button>
-        </div>
-        <span id="score">0 / ${questionAmount}</span>
-      </div>
-      <span id="result"></span>
+  <div class="triviaContainer fade-in">
+  <div class="questionBox">
+    <div class="question">${questions.results[id].question}</div>
+  </div>
+  <div class="answerBox">
+    <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
+    <div class="answer" onclick="checkAnswer(this)">${answers[1]}</div>
+    <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
+    <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
+  </div>
+  <span id="score">${score} / ${questions.results.length}</span>
+  </div>
+<span id="result"></span>
       `;
   app.innerHTML = html;
 
-  checkAns = () => {
-    const result = document.getElementById("result");
+  let answered = false;
+  checkAnswer = (selectedChoice) => {
+    // Get the correct answer (you might fetch this from your data)
+    let correctAnswer = `${questions.results[id].correct_answer}`;
     const scoreresult = document.getElementById("score");
-
-    if (
-      document.activeElement.innerHTML === questions.results[id].correct_answer
-    ) {
-      document.activeElement.style.background = "#00FF73";
-      result.innerHTML = "Correct!";
+    if (answered) {
+      return;
+    }
+    // Check if the selected answer is correct
+    if (selectedChoice.innerText === correctAnswer) {
+      // Correct answer: Change background color to green
+      selectedChoice.style.backgroundColor = "#00FF73";
       score++;
       scoreresult.innerHTML = `${score} / ${questions.results.length}`;
-
       setTimeout(() => {
         nextQuestion();
-      }, 1500);
+      }, 1000);
     } else {
-      document.activeElement.style.background = "#FF6565";
-      result.innerHTML = "Wrong!";
+      // Wrong answer: Change background color to red
+      selectedChoice.style.backgroundColor = "#FF6565";
       setTimeout(() => {
         nextQuestion();
-      }, 1500);
+      }, 1000);
+      // Optionally, you might want to highlight the correct answer as well
+      var choices = document.getElementsByClassName("answer");
+      for (var i = 0; i < choices.length; i++) {
+        if (choices[i].innerText === correctAnswer) {
+          choices[i].style.backgroundColor = "#00FF73";
+        }
+      }
     }
+    answered = true;
   };
 
-  function nextQuestion() {
+  nextQuestion = () => {
+    answered = false;
     id++;
     let html = "";
     const answers = questions.results[id].incorrect_answers.concat(
@@ -127,21 +134,19 @@ async function startGame() {
     );
     shuffle(answers);
     html += `
-    <div class="triviaContainer">
-      <div class="questionBox">
-        <div class="question">
-          ${questions.results[id].question}
-        </div>
-      </div>
-      <div class="answerBox">
-        <button id="answerBtn" class="answerA" onclick="checkAns()">${answers[0]}</button>
-        <button id="answerBtn" class="answerB" onclick="checkAns()">${answers[1]}</button>
-        <button id="answerBtn" class="answerC" onclick="checkAns()">${answers[2]}</button>
-        <button id="answerBtn" class="answerD" onclick="checkAns()">${answers[3]}</button>
-      </div>
-      <span id="score">${score} / ${questions.results.length}</span>
+    <div class="triviaContainer fade-in">
+    <div class="questionBox">
+      <div class="question">${questions.results[id].question}</div>
     </div>
-    <span id="result"></span>
+    <div class="answerBox">
+      <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
+      <div class="answer" onclick="checkAnswer(this)">${answers[1]}</div>
+      <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
+      <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
+    </div>
+    <span id="score">${score} / ${questions.results.length}</span>
+  </div>
+  <span id="result"></span>
     `;
     app.innerHTML = html;
     console.log(id);
@@ -151,7 +156,7 @@ async function startGame() {
       <button id="retry" onclick="location.reload()">Try Again</button>
       `;
     }
-  }
+  };
 }
 
 populateCategories();
