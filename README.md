@@ -4,7 +4,7 @@ Hello and welcome to the repository for my first project at InceptionU.
 
 ## Install Instructions
 
-Simply clone this repo locally and open the index.html file or run it with the LiveServer extension in VScode.
+npm install instructions to be added...
 
 ## Process
 
