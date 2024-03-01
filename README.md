@@ -12,6 +12,6 @@ I decided to make a trivia game in order to challenge myself in a few different 
 
 My next challenge was to generate the questions dynamically using JavaScript template literals. From there I needed to figure out the logic to check the selected answers against the fetched data and provide a visual representation whether the answer was correct or not. My initial implementation tackled SOME of the problems but it did not lock out the answering process. I initially tried several solutions from searching and ended up querying Chat GPT for a solution. This was my first-time using Chat GPT for coding solutions and I was impressed by the speed and ease I was able to find a solution.
 
-At this point I have a fully working app. My next steps are to implement a simple local JSON database to track statistics on how many questions from each category were answered correctly. From there I’d like to include a graph at the score screen to show the user which categories they've most answered correctly.
+Database is now set up to store some simple data each time a question is answered. For every answered question it logs whether it was correct or not, the difficulty and the category of the question.
 
-In addition to the database, I’d like to refine the design and perhaps include some more animations to liven up the game.
+Next step is to take this data and plot it with Chart.JS
