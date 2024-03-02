@@ -1,30 +1,25 @@
 // Some default variables for game options
-let difficulty = "easy";
+let difficulty = "Easy";
 let questionAmount = 5;
+const optionDisplay = document.getElementById("displayoptions");
 
-// Functions for difficulty select
-selectEasy = () => {
-  return (difficulty = "easy");
-};
-selectMed = () => {
-  return (difficulty = "medium");
-};
-selectHard = () => {
-  return (difficulty = "hard");
+// Function to update the display
+function updateDisplay() {
+  optionDisplay.innerHTML = `${questionAmount.toString().replace(/^\w/, (c) => c.toUpperCase())} Questions on ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} Difficulty`;
+}
+
+// Function for difficulty select
+selectDifficulty = (level) => {
+  difficulty = level;
+  updateDisplay();
+  return difficulty;
 };
 
-// Functions for amount of questions
-amount5 = () => {
-  return (questionAmount = 5);
-};
-amount10 = () => {
-  return (questionAmount = 10);
-};
-amount15 = () => {
-  return (questionAmount = 15);
-};
-amount20 = () => {
-  return (questionAmount = 20);
+// Function for amount of questions
+selectAmount = (amount) => {
+  questionAmount = amount;
+  updateDisplay();
+  return questionAmount;
 };
 
 // Function to Shuffle an Array
@@ -151,8 +146,11 @@ startGame = async () => {
     answered = false;
     
     if (qNumID == questionAmount - 1) {
-      app.innerHTML = `<h3>You got ${score} of ${questions.length} answers correct.</h3>
-      <button id="retry" onclick="location.reload()">Try Again</button>
+      app.innerHTML = `<h2 class="titleText">You got ${score} of ${questions.length} answers correct.</h2>
+       <div class="final-buttons"> 
+        <button onclick="location.reload()">Try Again</button>
+        <button><a href="/stats">View Stats</a></button>
+      </div>
       `;
       return
     }

@@ -2,9 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const fsp = require('fs').promises;
+const count = require('./data.js');
 
 const app = express();
 const PORT = 3000;
+app.set('view engine', 'ejs');
+
+app.get('/stats', (req, res) => {
+  res.render('stats', { data: count });
+});
 
 app.use(bodyParser.json());
 

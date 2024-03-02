@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="./images/icons8-question-96.png" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <title>Stats</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <h1 class="titleText">Triva Stats</h1>
+
+  <canvas id="myChart"></canvas>
+
+  <button style="margin-top: 2em;"><a href="/">Play Again</a></button>
+  <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var data = <%- JSON.stringify(data.count) %>;
+    var labels = Object.keys(data);
+    var correctValues = labels.map(label => data[label].correct);
+    var totalValues = labels.map(label => data[label].total);
+
+    // Modify the labels after creating the correctValues and totalValues arrays
+    labels = labels.map(label => label.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()));
+
+    var myBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Correct',
+          data: correctValues,
+          backgroundColor: 'rgba(255,196,0, 0.7)',
+          borderColor: 'rgba(0,0,0, 1)',
+          borderWidth: 3
+        }, {
+          label: 'Total',
+          data: totalValues,
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          borderColor: 'rgba(255,196,0, 1)',
+          borderWidth: 3
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: 'black', // Change the color of the y-axis numbers
+              font: {
+                size: 16, // Change the font size of the y-axis numbers
+                family: 'Archivo' // Change the font family of the y-axis numbers
+              }
+            }
+          },
+          x: {
+            ticks: {
+              color: 'black', // Change the color of the x-axis labels
+              font: {
+                size: 16, // Change the font size of the x-axis labels
+                family: 'Archivo' // Change the font family of the x-axis labels
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -57,6 +57,7 @@ body {
   font-weight: 900;
   margin-bottom: 0.5em;
   text-shadow: .075em .075em 0 #ffc400;
+  text-align: center;
 }
 
 
@@ -85,8 +86,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
 }
+
+.attribution {
+  position: fixed;
+  bottom: 0;
+}
+
+
+/* Trivia container Styling */
 
 .triviaContainer {
   display: flex;
@@ -143,8 +152,6 @@ body {
   margin-bottom: 0;
 }
 
-/* Add letters to answer choices */
-
 .answerBox div:nth-child(1)::before {
   content: "A.";
 }
@@ -162,9 +169,16 @@ body {
   font-weight: bold;
 }
 
-.attribution {
-  position: fixed;
-  bottom: 0;
+.scoreresult {
+  font-size: 4em;
+}
+
+.final-buttons {
+  display: flex;
+  width: 20em;
+  justify-content: space-evenly;
+  margin-top: 1em;
+
 }
 
 /* Buttons styling */
@@ -224,14 +238,4 @@ button:hover {
 
 .questionAmount button {
   padding: 0 20px;
-}
-
-#startBtn {
-  margin-top: 2em;
-  background-color: #55ff00;
-  transition: 150ms ease-in-out;
-}
-
-#retry {
-  margin-top: 1em;
 }
