@@ -5,7 +5,11 @@ const optionDisplay = document.getElementById("displayoptions");
 
 // Function to update the display
 function updateDisplay() {
-  optionDisplay.innerHTML = `${questionAmount.toString().replace(/^\w/, (c) => c.toUpperCase())} Questions on ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} Difficulty`;
+  optionDisplay.innerHTML = `${questionAmount
+    .toString()
+    .replace(/^\w/, (c) => c.toUpperCase())} Questions on ${
+    difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
+  } Difficulty`;
 }
 
 // Function for difficulty select
@@ -144,15 +148,15 @@ startGame = async () => {
   nextQuestion = () => {
     //Reset answer status
     answered = false;
-    
+
     if (qNumID == questionAmount - 1) {
       app.innerHTML = `<h2 class="titleText">You got ${score} of ${questions.length} answers correct.</h2>
        <div class="final-buttons"> 
         <button onclick="location.reload()">Try Again</button>
-        <button><a href="/stats">View Stats</a></button>
+        <a href="/stats"><button>View Stats</button></a>
       </div>
       `;
-      return
+      return;
     }
     qNumID++;
     let html = "";

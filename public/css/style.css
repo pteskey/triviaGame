@@ -56,10 +56,9 @@ body {
   font-size: 2.6em;
   font-weight: 900;
   margin-bottom: 0.5em;
-  text-shadow: .075em .075em 0 #ffc400;
+  text-shadow: 0.075em 0.075em 0 #ffc400;
   text-align: center;
 }
-
 
 .options {
   width: 100%;
@@ -71,9 +70,9 @@ body {
   align-self: center;
   font-size: 1.2em;
   margin-bottom: 1em;
-  padding: .25em .6em .25em .6em;
+  padding: 0.25em 0.6em 0.25em 0.6em;
   background-color: #e5e5f7;
-  box-shadow: rgba(255,196,0) 0px 2px;
+  box-shadow: rgba(255, 196, 0) 0px 2px;
 }
 
 .difficultyBtns {
@@ -91,9 +90,13 @@ body {
 
 .attribution {
   position: fixed;
-  bottom: 0;
+  bottom: 0.5em;
 }
 
+.attribution a {
+  color: blue;
+  text-decoration: underline;
+}
 
 /* Trivia container Styling */
 
@@ -101,7 +104,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 22em;
-  background-color:rgba(201, 201, 218, 0.75);
+  background-color: rgba(201, 201, 218, 0.75);
   border: 1px solid rgb(100, 100, 100);
   border-radius: 0.5em;
   transition: 200ms ease-in-out;
@@ -125,10 +128,9 @@ body {
 }
 
 .question {
-  font-size: .9em;
+  font-size: 0.9em;
   font-weight: 500;
   margin-bottom: 0.5em;
-
 }
 
 .answerBox {
@@ -178,7 +180,6 @@ body {
   width: 20em;
   justify-content: space-evenly;
   margin-top: 1em;
-
 }
 
 /* Buttons styling */
@@ -219,7 +220,7 @@ button:after {
   position: absolute;
   top: -2px;
   transform: translate(8px, 8px);
-  transition: transform .2s ease-out;
+  transition: transform 0.2s ease-out;
   z-index: -1;
 }
 
