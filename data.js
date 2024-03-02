@@ -1,5 +1,5 @@
 const fs = require("fs");
-
+//Function to get the count of correct and total questions for each category
 function getCount(callback) {
   // Read the file
   fs.readFile("data.json", "utf8", (err, fileContents) => {
@@ -43,5 +43,5 @@ function getCount(callback) {
     }
   });
 }
-
+// Export the function
 module.exports = getCount;
