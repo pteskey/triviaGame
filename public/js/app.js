@@ -76,6 +76,13 @@ startGame = async () => {
   shuffle(answers);
   // Template for Trivia questions and answers
   html += `
+  <img
+  class="questionMarkIcon"
+  src="./images/icons8-question-96.png"
+  alt="Question-mark icon"
+  srcset=""
+  />
+  <h1 class="titleText">Trivia Challenge</h1>
   <div id="triviaContainer" class="triviaContainer fade-in">
   <div class="questionBox">
     <div class="question">${questions[qNumID].question.text}</div>
@@ -165,6 +172,13 @@ startGame = async () => {
     );
     shuffle(answers);
     html += `
+    <img
+    class="questionMarkIcon"
+    src="./images/icons8-question-96.png"
+    alt="Question-mark icon"
+    srcset=""
+    />
+    <h1 class="titleText">Trivia Challenge</h1>
     <div id="triviaContainer" class="triviaContainer fade-in">
     <div class="questionBox">
       <div class="question">${questions[qNumID].question.text}</div>

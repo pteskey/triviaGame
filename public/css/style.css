@@ -52,6 +52,11 @@ body {
   align-items: center;
 }
 
+.questionMarkIcon {
+  position: fixed;
+  top: 2em;
+}
+
 .titleText {
   font-size: 2.6em;
   font-weight: 900;
@@ -104,8 +109,9 @@ body {
   display: flex;
   flex-direction: column;
   width: 22em;
-  background-color: rgba(201, 201, 218, 0.75);
-  border: 1px solid rgb(100, 100, 100);
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 3px solid #ffc400;
+  outline: 3px solid #000;
   border-radius: 0.5em;
   transition: 200ms ease-in-out;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
@@ -120,15 +126,17 @@ body {
   padding: 0.5em;
   margin-bottom: 1em;
   border: 1px solid black;
-  cursor: pointer;
+  border-radius: 0.25em;
   text-align: left;
+  line-height: 1;
+  word-wrap: break-word;
   background: #e5e5f7;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .question {
-  font-size: 0.9em;
+  font-size: 1em;
   font-weight: 500;
   margin-bottom: 0.5em;
 }
@@ -143,11 +151,17 @@ body {
   padding: 0.5em;
   margin-bottom: 1em;
   border: 1px solid black;
+  border-radius: 0.25em;
   cursor: pointer;
   text-align: left;
   background-color: #e5e5f7;
+  transition: 200ms ease-in-out;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.answerBox div:hover {
+  background-color: #ffc400;
 }
 
 .answerBox div:last-child {

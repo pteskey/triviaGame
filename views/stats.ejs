@@ -57,27 +57,29 @@
           }]
         },
         options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                color: 'black', // Change the color of the y-axis numbers
-                font: {
-                  size: 16, // Change the font size of the y-axis numbers
-                  family: 'Archivo' // Change the font family of the y-axis numbers
+          resonsive: true,
+          maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  color: 'black', // Change the color of the y-axis numbers
+                  font: {
+                    size: 16, // Change the font size of the y-axis numbers
+                    family: 'Archivo' // Change the font family of the y-axis numbers
+                  }
                 }
-              }
-            },
-            x: {
-              ticks: {
-                color: 'black', // Change the color of the x-axis labels
-                font: {
-                  size: 16, // Change the font size of the x-axis labels
-                  family: 'Archivo' // Change the font family of the x-axis labels
+              },
+              x: {
+                ticks: {
+                  color: 'black', // Change the color of the x-axis labels
+                  font: {
+                    size: 16, // Change the font size of the x-axis labels
+                    family: 'Archivo' // Change the font family of the x-axis labels
+                  }
                 }
               }
             }
-          }
         }
       });
     </script>
