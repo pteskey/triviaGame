@@ -1,7 +1,6 @@
 // Some default variables for game options
 let difficulty = "easy";
-let questionAmount = 10;
-const categories = "https://opentdb.com/api_category.php";
+let questionAmount = 5;
 
 // Functions for difficulty select
 selectEasy = () => {
@@ -15,6 +14,9 @@ selectHard = () => {
 };
 
 // Functions for amount of questions
+amount5 = () => {
+  return (questionAmount = 5);
+};
 amount10 = () => {
   return (questionAmount = 10);
 };
@@ -36,10 +38,9 @@ const shuffle = (array) => {
 
 // Fetch question data
 async function fetchQuestions() {
-  let apiURL = `https://opentdb.com/api.php?amount=${questionAmount}&difficulty=${difficulty}&type=multiple`;
+  let apiURL = `https://the-trivia-api.com/v2/questions?limit=${questionAmount}&difficulties=${difficulty}`;
   const response = await fetch(apiURL);
   const questions = await response.json();
-  console.log(questions);
   return questions;
 }
 
@@ -67,18 +68,18 @@ startGame = async () => {
   //Default variables
   const app = document.querySelector("#app");
   let html = "";
-  let id = 0;
+  let qNumID = 0;
   let score = 0;
   const questions = await fetchQuestions();
-  const answers = questions.results[id].incorrect_answers.concat(
-    questions.results[id].correct_answer
+  const answers = questions[qNumID].incorrectAnswers.concat(
+    questions[qNumID].correctAnswer
   );
   shuffle(answers);
   // Template for Trivia questions and answers
   html += `
   <div id="triviaContainer" class="triviaContainer fade-in">
   <div class="questionBox">
-    <div class="question">${questions.results[id].question}</div>
+    <div class="question">${questions[qNumID].question.text}</div>
   </div>
   <div class="answerBox">
     <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
@@ -87,7 +88,6 @@ startGame = async () => {
     <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
   </div>
   </div>
-<span id="result"></span>
       `;
   app.innerHTML = html;
 
@@ -97,7 +97,7 @@ startGame = async () => {
 
     triviaContainer.classList.remove("fade-in");
     triviaContainer.classList.add("fade-out");
-    let correctAnswer = `${questions.results[id].correct_answer}`;
+    let correctAnswer = `${questions[qNumID].correctAnswer}`;
     if (answered) {
       return;
     }
@@ -109,8 +109,8 @@ startGame = async () => {
         questions: [
           {
             correctlyAnswered: true,
-            category: `${questions.results[id].category}`,
-            difficulty: `${questions.results[id].difficulty}`,
+            category: `${questions[qNumID].category}`,
+            difficulty: `${questions[qNumID].difficulty}`,
           },
         ],
       };
@@ -125,8 +125,8 @@ startGame = async () => {
         questions: [
           {
             correctlyAnswered: false,
-            category: `${questions.results[id].category}`,
-            difficulty: `${questions.results[id].difficulty}`,
+            category: `${questions[qNumID].category}`,
+            difficulty: `${questions[qNumID].difficulty}`,
           },
         ],
       };
@@ -149,16 +149,23 @@ startGame = async () => {
   nextQuestion = () => {
     //Reset answer status
     answered = false;
-    id++;
+    
+    if (qNumID == questionAmount - 1) {
+      app.innerHTML = `<h3>You got ${score} of ${questions.length} answers correct.</h3>
+      <button id="retry" onclick="location.reload()">Try Again</button>
+      `;
+      return
+    }
+    qNumID++;
     let html = "";
-    const answers = questions.results[id].incorrect_answers.concat(
-      questions.results[id].correct_answer
+    const answers = questions[qNumID].incorrectAnswers.concat(
+      questions[qNumID].correctAnswer
     );
     shuffle(answers);
     html += `
     <div id="triviaContainer" class="triviaContainer fade-in">
     <div class="questionBox">
-      <div class="question">${questions.results[id].question}</div>
+      <div class="question">${questions[qNumID].question.text}</div>
     </div>
     <div class="answerBox">
       <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
@@ -166,38 +173,8 @@ startGame = async () => {
       <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
       <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
     </div>
-  </div>
-  <span id="result"></span>
-    `;
+    </div>
+        `;
     app.innerHTML = html;
-    console.log(id);
-
-    if (id === questionAmount - 1) {
-      app.innerHTML = `<h3>You got ${score} of ${questions.results.length} answers correct.</h3>
-      <button id="retry" onclick="location.reload()">Try Again</button>
-      `;
-    }
   };
 };
-
-// Fetch and populate categories
-
-// async function fetchCategories() {
-//   const response = await fetch(categories);
-//   const categorydata = await response.json();
-//   return categorydata;
-// }
-
-// async function populateCategories() {
-//   const data = await fetchCategories();
-//   const selectElement = document.getElementById("categories");
-
-//   // Loop through the categoryData and append options to the select element
-//   for (let i = 0; i < data.trivia_categories.length; i++) {
-//     const option = document.createElement("option");
-//     option.value = data.trivia_categories[i].id;
-//     option.text = data.trivia_categories[i].name;
-//     selectElement.appendChild(option);
-//   }
-// }
-// populateCategories();
