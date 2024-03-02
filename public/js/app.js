@@ -44,25 +44,25 @@ async function fetchQuestions() {
 }
 
 startGame = async () => {
-// Send data to the server
-async function sendDataToDatabase(data) {
-  console.log('Sending data:', data); // Log the data before sending it
-  const response = await fetch('http://localhost:3000/api/data', {
-      method: 'POST',
+  // Send data to the server
+  async function sendDataToDatabase(data) {
+    console.log("Sending data:", data); // Log the data before sending it
+    const response = await fetch("http://localhost:3000/api/data", {
+      method: "POST",
       headers: {
-          'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
-  });
+      body: JSON.stringify(data),
+    });
 
-  if (!response.ok) {
+    if (!response.ok) {
       const errorData = await response.json(); // Try to parse the error response
-      console.error('Error response:', errorData); // Log the error response
+      console.error("Error response:", errorData); // Log the error response
       throw new Error(`HTTP error! status: ${response.status}`);
-  }
+    }
 
-  return await response.json();
-}
+    return await response.json();
+  }
 
   //Default variables
   const app = document.querySelector("#app");
@@ -76,7 +76,7 @@ async function sendDataToDatabase(data) {
   shuffle(answers);
   // Template for Trivia questions and answers
   html += `
-  <div class="triviaContainer fade-in">
+  <div id="triviaContainer" class="triviaContainer fade-in">
   <div class="questionBox">
     <div class="question">${questions.results[id].question}</div>
   </div>
@@ -93,6 +93,10 @@ async function sendDataToDatabase(data) {
 
   let answered = false;
   checkAnswer = (selectedChoice) => {
+    const triviaContainer = document.getElementById("triviaContainer");
+
+    triviaContainer.classList.remove("fade-in");
+    triviaContainer.classList.add("fade-out");
     let correctAnswer = `${questions.results[id].correct_answer}`;
     if (answered) {
       return;
@@ -113,10 +117,10 @@ async function sendDataToDatabase(data) {
       sendDataToDatabase(correctWrite);
       setTimeout(() => {
         nextQuestion();
-      }, 1000);
+      }, 1500);
     } else {
       selectedChoice.style.backgroundColor = "#FF6565";
-      
+
       const incorrectWrite = {
         questions: [
           {
@@ -129,7 +133,7 @@ async function sendDataToDatabase(data) {
       sendDataToDatabase(incorrectWrite);
       setTimeout(() => {
         nextQuestion();
-      }, 1000);
+      }, 1500);
       // Option to highlight correct answer if you chose wrong
       let choices = document.getElementsByClassName("answer");
       for (let i = 0; i < choices.length; i++) {
@@ -152,7 +156,7 @@ async function sendDataToDatabase(data) {
     );
     shuffle(answers);
     html += `
-    <div class="triviaContainer fade-in">
+    <div id="triviaContainer" class="triviaContainer fade-in">
     <div class="questionBox">
       <div class="question">${questions.results[id].question}</div>
     </div>

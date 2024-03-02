@@ -1,48 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="./images/icons8-question-96.png"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Trivia Challenge</title>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./js/app.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-    rel="stylesheet" />
-  <title>Trivia Challenge</title>
-  <link rel="stylesheet" href="./css/reset.css" />
-  <link rel="stylesheet" href="./css/style.css" />
-  <script src="./js/app.js"></script>
-</head>
+  <body>
+    <div class="wrapper" id="app">
+      <div class="title" id="title">
+        <h1 class="titleText">Trivia Challenge</h1>
 
-<body>
-  <div class="wrapper" id="app">
-    <div class="title" id="title">
-      <h1 class="titleText">Trivia Challenge</h1>
-
-      <div class="options">
-        <span class="aligntext">Select Difficulty</span>
-        <div class="difficultyBtns">
-          <button onclick="selectEasy()" id="easy">Easy</button>
-          <button onclick="selectMed()" id="medium">Medium</button>
-          <button onclick="selectHard()" id="hard">Hard</button>
+        <div class="options">
+          <span class="aligntext">Select Difficulty</span>
+          <div class="difficultyBtns">
+            <button onclick="selectEasy()" id="easy">Easy</button>
+            <button onclick="selectMed()" id="medium">Medium</button>
+            <button onclick="selectHard()" id="hard">Hard</button>
+          </div>
+          <span class="aligntext">Select amount of Questions</span>
+          <div class="questionAmount">
+            <button onclick="amount10()">10</button>
+            <button onclick="amount15()">15</button>
+            <button onclick="amount20()">20</button>
+          </div>
         </div>
-        <span class="aligntext">Select amount of Questions</span>
-        <div class="questionAmount">
-          <button onclick="amount10()">10</button>
-          <button onclick="amount15()">15</button>
-          <button onclick="amount20()">20</button>
-        </div>
-      </div>
-      <!-- <label for="categories" class="aligntext">Select a Category</label>
+        <!-- <label for="categories" class="aligntext">Select a Category</label>
         <div class="select">
           <select id="categories"></select>
           <span class="focus"></span>
         </div> -->
 
-      <button id="startBtn" onclick="startGame()">Begin</button>
+        <button id="startBtn" onclick="startGame()">Begin</button>
+      </div>
+      <div class="attribution">
+        <a target="_blank" href="https://icons8.com/icon/103807/question-mark"
+          >Question</a
+        >
+        icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+      </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
