@@ -1,17 +1,20 @@
-# <div align=center>Trivia Challenge</div>
+# Trivia Challenge
 
-Hello and welcome to the repository for my first project at InceptionU.
+Hello and welcome to the repository for my first project at InceptionU. This is a trivia game where you can chose the amount of questions and the difficulty level. Each time a question is answered some data is written to a local JSON database. This data base tracks the difficulty of the question, what category and whether it was answered correctly or not. There is an option to view these stats on the score screen. 
 
 ## Install Instructions
 
-npm install instructions to be added...
+NodeJS is required to load this app locally.
 
-## Process
+Upon cloning this repo simply run an `npm install` in your terminal.
+\
+This will install all the packages required to run the app.
 
-I decided to make a trivia game in order to challenge myself in a few different aspects. My first challenge was to implement the question-and-answer data via API using async functions to fetch data from a public trivia API.
+From here simply start the server with `node server.js` in your terminal.
 
-My next challenge was to generate the questions dynamically using JavaScript template literals. From there I needed to figure out the logic to check the selected answers against the fetched data and provide a visual representation whether the answer was correct or not. My initial implementation tackled SOME of the problems but it did not lock out the answering process. I initially tried several solutions from searching and ended up querying Chat GPT for a solution. This was my first-time using Chat GPT for coding solutions and I was impressed by the speed and ease I was able to find a solution.
+Now you can just visit `localhost:3000` in your browser and play!
 
-Database is now set up to store some simple data each time a question is answered. For every answered question it logs whether it was correct or not, the difficulty and the category of the question.
+I hope you enjoy playing some trivia, good luck and have fun!
 
-Next step is to take this data and plot it with Chart.JS
+
+
