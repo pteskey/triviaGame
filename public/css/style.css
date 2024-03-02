@@ -45,7 +45,7 @@ body {
 /* Layout */
 
 .title {
-  width: 25em;
+  width: 20em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -58,9 +58,18 @@ body {
 }
 
 .titleText {
-  font-size: 2.6em;
+  font-size: 2.3em;
   font-weight: 900;
   margin-bottom: 0.5em;
+  text-shadow: 0.075em 0.075em 0 #ffc400;
+  text-align: center;
+}
+
+.triviaTitle {
+  position: fixed;
+  bottom: 2em;
+  font-size: 2.3em;
+  font-weight: 900;
   text-shadow: 0.075em 0.075em 0 #ffc400;
   text-align: center;
 }
@@ -82,20 +91,22 @@ body {
 
 .difficultyBtns {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   margin-bottom: 2em;
 }
 
 .questionAmount {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   margin-bottom: 1.5em;
 }
 
 .attribution {
   position: fixed;
+  text-align: center;
   bottom: 0.5em;
+  font-size: 0.75em;
 }
 
 .attribution a {

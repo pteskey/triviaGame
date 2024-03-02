@@ -1,61 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="shortcut icon"
-      href="./images/icons8-question-96.png"
-      type="image/x-icon"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
 
-    <title>Trivia Challenge</title>
-    <link rel="stylesheet" href="./css/reset.css" />
-    <link rel="stylesheet" href="./css/style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="./images/icons8-question-96.png" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
 
-  <body id="app">
-    <div class="title" id="title">
-      <img
-        class="questionMarkIcon"
-        src="./images/icons8-question-96.png"
-        alt="Question-mark icon"
-        srcset=""
-      />
-      <h1 class="titleText">Trivia Challenge</h1>
+  <title>Trivia Challenge</title>
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
 
-      <div class="options">
-        <span class="aligntext">Select Difficulty</span>
-        <div class="difficultyBtns">
-          <button onclick="selectDifficulty('easy')">Easy</button>
-          <button onclick="selectDifficulty('medium')">Medium</button>
-          <button onclick="selectDifficulty('hard')">Hard</button>
-        </div>
-        <span class="aligntext">Select amount of Questions</span>
-        <div class="questionAmount">
-          <button onclick="selectAmount(5)">5</button>
-          <button onclick="selectAmount(10)">10</button>
-          <button onclick="selectAmount(15)">15</button>
-          <button onclick="selectAmount(20)">20</button>
-        </div>
+<body id="app">
+  <div class="title" id="title">
+    <img class="questionMarkIcon" src="./images/icons8-question-96.png" alt="Question-mark icon" srcset="" />
+    <h1 class="titleText">Trivia Challenge</h1>
+
+    <div class="options">
+      <span class="aligntext">Select Difficulty</span>
+      <div class="difficultyBtns">
+        <button onclick="selectDifficulty('easy')">Easy</button>
+        <button onclick="selectDifficulty('medium')">Medium</button>
+        <button onclick="selectDifficulty('hard')">Hard</button>
       </div>
-      <div class="aligntext" id="displayoptions">
-        5 Questions on Easy Difficulty
+      <span class="aligntext">Select amount of Questions</span>
+      <div class="questionAmount">
+        <button onclick="selectAmount(5)">5</button>
+        <button onclick="selectAmount(10)">10</button>
+        <button onclick="selectAmount(15)">15</button>
+        <button onclick="selectAmount(20)">20</button>
       </div>
-      <button id="startBtn" onclick="startGame()">Start Game</button>
     </div>
-    <div class="attribution">
-      <a target="_blank" href="https://icons8.com/icon/103807/question-mark"
-        >Question</a
-      >
+    <div class="aligntext" id="displayoptions">
+      5 Questions on Easy Difficulty
+    </div>
+    <button id="startBtn" onclick="startGame()">Start Game</button>
+  </div>
+  <div class="attribution">
+    <div>
+      <a target="_blank" href="https://icons8.com/icon/103807/question-mark">Question</a>
       icon by <a target="_blank" href="https://icons8.com">Icons8</a>
     </div>
-    <script src="./js/app.js"></script>
-  </body>
+    <div>
+      Question and Answer data provided by <a target="_blank" href="https://the-trivia-api.com/">The Trivia API</a>
+    </div>
+  </div>
+  <script src="./js/app.js"></script>
+</body>
+
 </html>

@@ -1,5 +1,5 @@
 // Some default variables for game options
-let difficulty = "Easy";
+let difficulty = "easy";
 let questionAmount = 5;
 const optionDisplay = document.getElementById("displayoptions");
 
@@ -82,7 +82,7 @@ startGame = async () => {
   alt="Question-mark icon"
   srcset=""
   />
-  <h1 class="titleText">Trivia Challenge</h1>
+  
   <div id="triviaContainer" class="triviaContainer fade-in">
   <div class="questionBox">
     <div class="question">${questions[qNumID].question.text}</div>
@@ -94,6 +94,7 @@ startGame = async () => {
     <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
   </div>
   </div>
+  <h1 class="triviaTitle">Trivia Challenge</h1>
       `;
   app.innerHTML = html;
 
@@ -178,7 +179,7 @@ startGame = async () => {
     alt="Question-mark icon"
     srcset=""
     />
-    <h1 class="titleText">Trivia Challenge</h1>
+    
     <div id="triviaContainer" class="triviaContainer fade-in">
     <div class="questionBox">
       <div class="question">${questions[qNumID].question.text}</div>
@@ -190,7 +191,8 @@ startGame = async () => {
       <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
     </div>
     </div>
-        `;
+    <h1 class="triviaTitle">Trivia Challenge</h1>
+    `;
     app.innerHTML = html;
   };
 };
