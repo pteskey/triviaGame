@@ -1,33 +1,8 @@
 //  Default variables for game options
 let difficulty = "easy";
 let questionAmount = 5;
+let currentCategory;
 const optionDisplay = document.getElementById("displayoptions");
-//Swiper for the difficulty and question amount
-var swiper = new Swiper(".swiper-container", {
-  speed: 500,
-  slidesPerView: 1,
-  spaceBetween: 0,
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-  on: {
-    slideChangeTransitionEnd: function () {
-      var activeSlideText = this.slides[this.activeIndex].innerText;
-      console.log(activeSlideText); // This will log the text of the active slide
-      // You can use activeSlideText to update your trivia app's category
-    },
-  },
-});
-// Function to update the display
-function updateDisplay() {
-  optionDisplay.innerHTML = `${questionAmount
-    .toString()
-    .replace(/^\w/, (c) => c.toUpperCase())} Questions on ${
-    difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
-  } Difficulty`;
-}
-
 // Function for difficulty select
 selectDifficulty = (level) => {
   difficulty = level;
@@ -41,7 +16,60 @@ selectAmount = (amount) => {
   updateDisplay();
   return questionAmount;
 };
+//Swiper for category selection
+const swiper = new Swiper(".swiper-container", {
+  centeredSlides: true,
+  slidesOffsetBefore: 0,
+  slidesOffsetAfter: 0,
+  speed: 500,
+  slidesPerView: 1,
+  spaceBetween: 0,
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  on: {
+    init: function () {
+      currentCategory = getCurrentCategory(this); // Update currentCategory
+    },
+    slideChangeTransitionEnd: function () {
+      currentCategory = getCurrentCategory(this); // Update currentCategory
+    },
+  },
+});
 
+// Function to get the current category
+function getCurrentCategory(swiper) {
+  // Get the active slide element
+  let activeSlideElement = swiper.slides[swiper.activeIndex];
+
+  // Get the text content of the active slide
+  let category = activeSlideElement.textContent;
+
+  // If the category is "Any", return an empty string
+  if (category.toLowerCase() === "any") {
+    return "";
+  }
+
+  // Format the category to match the API requirements
+  category = category.toLowerCase(); // convert to lowercase
+  category = category.replace(/ /g, "_"); // replace spaces with underscores
+
+  return category;
+}
+// Fetch question data
+async function fetchQuestions() {
+  let apiURL = `https://the-trivia-api.com/v2/questions?limit=${questionAmount}&difficulties=${difficulty}`;
+
+  // If the category is not an empty string, add it as a query parameter
+  if (currentCategory) {
+    apiURL += `&categories=${currentCategory}`;
+  }
+
+  const response = await fetch(apiURL);
+  const questions = await response.json();
+  return questions;
+}
 // Function to Shuffle an Array
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -50,13 +78,22 @@ const shuffle = (array) => {
   }
   return array;
 };
+// Function to update the options display
+function updateDisplay() {
+  // Start the hide animation
+  optionDisplay.classList.add('hide');
 
-// Fetch question data
-async function fetchQuestions() {
-  let apiURL = `https://the-trivia-api.com/v2/questions?limit=${questionAmount}&difficulties=${difficulty}`;
-  const response = await fetch(apiURL);
-  const questions = await response.json();
-  return questions;
+  optionDisplay.addEventListener('transitionend', function() {
+    // Update the content
+    optionDisplay.innerHTML = `${questionAmount
+      .toString()
+      .replace(/^\w/, (c) => c.toUpperCase())} Questions on ${
+      difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
+    } Difficulty`;
+
+    // Start the show animation
+    optionDisplay.classList.remove('hide');
+  });
 }
 // Initialize game
 startGame = async () => {
@@ -99,7 +136,7 @@ startGame = async () => {
   alt="Question-mark icon"
   srcset=""
   />
-  
+  <h1 class="triviaTitle">Trivia Challenge</h1>
   <div id="triviaContainer" class="triviaContainer fade-in">
   <div class="questionBox">
     <div class="question">${questions[qNumID].question.text}</div>
@@ -111,7 +148,6 @@ startGame = async () => {
     <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
   </div>
   </div>
-  <h1 class="triviaTitle">Trivia Challenge</h1>
       `;
   app.innerHTML = html;
   let answered = false;
@@ -203,7 +239,7 @@ startGame = async () => {
     alt="Question-mark icon"
     srcset=""
     />
-    
+    <h1 class="triviaTitle">Trivia Challenge</h1>
     <div id="triviaContainer" class="triviaContainer fade-in">
     <div class="questionBox">
       <div class="question">${questions[qNumID].question.text}</div>
@@ -215,7 +251,6 @@ startGame = async () => {
       <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
     </div>
     </div>
-    <h1 class="triviaTitle">Trivia Challenge</h1>
     `;
     app.innerHTML = html;
   };
