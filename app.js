@@ -2,17 +2,28 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const fsp = require("fs").promises;
-const getCount = require("./data.js");
+const calculateStats = require('./public/js/calcdata');
 
 const app = express();
 const PORT = 3000;
 app.set("view engine", "ejs");
 
-app.get("/stats", (req, res) => {
-  getCount((count) => {
-    res.render("stats", { count: count });
-  });
+app.get('/dashboard', async (req, res) => {
+  try {
+    let rawData = await fsp.readFile('./data/data.json');
+    let jsonData = JSON.parse(rawData);
+    let data = jsonData.flatMap(obj => obj.questions);
+    let stats = calculateStats(data);
+    console.log(stats);
+
+    // Render the dashboard view and pass the stats
+    res.render('dashboard', { stats: stats });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred while reading the data.');
+  }
 });
+
 
 app.use(bodyParser.json());
 
@@ -50,7 +61,7 @@ app.post("/api/data", async (req, res) => {
 // Helper functions to read and write data
 async function getData() {
   try {
-    const rawData = fs.readFileSync("data.json", "utf8");
+    const rawData = fs.readFileSync("./data/data.json", "utf8");
     if (rawData.trim() === "") {
       return []; // Return an empty array if the file is empty
     }
@@ -63,7 +74,7 @@ async function getData() {
 
 async function saveData(data) {
   try {
-    await fsp.writeFile("data.json", JSON.stringify(data));
+    await fsp.writeFile("./data/data.json", JSON.stringify(data));
   } catch (error) {
     console.error("Error writing data.json:", error);
   }

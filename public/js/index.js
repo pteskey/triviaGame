@@ -218,7 +218,7 @@ startGame = async () => {
       app.innerHTML = `<h2 class="titleText">You got ${score} of ${questions.length} answers correct.</h2>
        <div class="final-buttons"> 
         <button onclick="location.reload()">Try Again</button>
-        <a href="/stats"><button>View Stats</button></a>
+        <a href="/dashboard"><button>View Stats</button></a>
       </div>
       `;
       return;
