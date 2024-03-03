@@ -102,6 +102,34 @@ body {
   margin-bottom: 1.5em;
 }
 
+.swiper-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20em;
+  height: 3em;
+}
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+.swiper-slide-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000; /* Change the color of the arrows */
+  width: 3em; /* Change the width of the arrows */
+  height: 3em; /* Change the height of the arrows */
+}
+
 .attribution {
   position: fixed;
   text-align: center;
@@ -196,6 +224,8 @@ body {
   font-weight: bold;
 }
 
+/* Score screen styling */
+
 .scoreresult {
   font-size: 4em;
 }
@@ -263,5 +293,5 @@ button:hover {
 }
 
 .questionAmount button {
-  padding: 0 20px;
+  padding: 0 1.25em;
 }

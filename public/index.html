@@ -8,7 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <title>Trivia Challenge</title>
   <link rel="stylesheet" href="./css/reset.css" />
   <link rel="stylesheet" href="./css/style.css" />
@@ -33,6 +37,23 @@
         <button onclick="selectAmount(15)">15</button>
         <button onclick="selectAmount(20)">20</button>
       </div>
+    </div>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">Music</div>
+        <div class="swiper-slide">Sport and Leisure</div>
+        <div class="swiper-slide">Film and TV</div>
+        <div class="swiper-slide">Arts and Literature</div>
+        <div class="swiper-slide">History</div>
+        <div class="swiper-slide">Society and Culture</div>
+        <div class="swiper-slide">Science</div>
+        <div class="swiper-slide">Geography</div>
+        <div class="swiper-slide">Food and Drink</div>
+        <div class="swiper-slide">General Knowledge</div>
+      </div>
+      <!-- Add Navigation arrows -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
     </div>
     <div class="aligntext" id="displayoptions">
       5 Questions on Easy Difficulty

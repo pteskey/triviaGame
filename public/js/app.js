@@ -2,7 +2,23 @@
 let difficulty = "easy";
 let questionAmount = 5;
 const optionDisplay = document.getElementById("displayoptions");
-
+//Swiper for the difficulty and question amount
+var swiper = new Swiper(".swiper-container", {
+  speed: 500,
+  slidesPerView: 1,
+  spaceBetween: 0,
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  on: {
+    slideChangeTransitionEnd: function () {
+      var activeSlideText = this.slides[this.activeIndex].innerText;
+      console.log(activeSlideText); // This will log the text of the active slide
+      // You can use activeSlideText to update your trivia app's category
+    },
+  },
+});
 // Function to update the display
 function updateDisplay() {
   optionDisplay.innerHTML = `${questionAmount
