@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./images/icons8-question-96.png" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./css/stats.css">
+  <title>Statistic Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <h1 class="titleText">Trivia Stats</h1>
+  <button id="next">
+    <img src="./images/icons8-arrow-100-right.png" alt="">
+  </button>
+  <button id="previous">
+    <img src="./images/icons8-arrow-100-left.png" alt="">
+  </button>
+  <div class="chart-container">
+    <div id="chart1" class="chart">
+      <div class="chart-item">
+        <h2><span>Accuracy Over Time</span></h2>
+        <canvas id="accuracyOverTime"></canvas>
+      </div>
+    </div>
+    <div id="chart2" class="chart" style="display: none;">
+      <div id="totalchart" class="chart-item">
+        <h2><span>Accuracy</span></h2>
+        <canvas id="totalAccuracy"></canvas>
+      </div>
+    </div>
+    <div id="chart3" class="chart" style="display: none;">
+      <div class="chart-item">
+        <h2><span>Category Accuracy</span></h2>
+        <canvas id="accuracyByCategory"></canvas>
+      </div>
+    </div>
+    <div id="chart4" class="chart" style="display: none;">
+      <div class="chart-item">
+        <h2><span>Questions per Category</span></h2>
+        <canvas id="questionsByCategory"></canvas>
+      </div>
+    </div>
+    <div id="chart5" class="chart" style="display: none;">
+      <div class="chart-item">
+        <h2><span>Difficulty Accuracy</span></h2>
+        <canvas id="accuracyByDifficulty"></canvas>
+      </div>
+    </div>
+    <div id="chart6" class="chart" style="display: none;">
+      <div class="chart-item">
+        <h2><span>Questions per Difficulty</span></h2>
+        <canvas id="questionsByDifficulty"></canvas>
+      </div>
+    </div>
+  </div>
+  <footer>
+    Graphs generated with Charts.JS
+  </footer>
+  <script>
+    let data;
+    <% if (typeof stats !== 'undefined' && stats !== null) { %>
+    data = <%- JSON.stringify(stats) %>;
+    <% } else { %>
+    console.error('stats is undefined or null');
+    <% } %>
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="/js/stats.js"></script>
+
+</body>
+
+</html>

@@ -8,16 +8,14 @@ const app = express();
 const PORT = 3000;
 app.set("view engine", "ejs");
 
-app.get('/dashboard', async (req, res) => {
+app.get('/stats', async (req, res) => {
   try {
     let rawData = await fsp.readFile('./data/data.json');
     let jsonData = JSON.parse(rawData);
     let data = jsonData.flatMap(obj => obj.questions);
     let stats = calculateStats(data);
-    console.log(stats);
-
     // Render the dashboard view and pass the stats
-    res.render('dashboard', { stats: stats });
+    res.render('stats', { stats: stats });
   } catch (err) {
     console.error(err);
     res.status(500).send('An error occurred while reading the data.');

@@ -9,6 +9,15 @@ selectDifficulty = (level) => {
   updateDisplay();
   return difficulty;
 };
+// Fade out score screen and reload
+scoreFade = ()=> {
+  const scoreWrapper = document.getElementById("score-wrapper");
+  scoreWrapper.classList.remove("fade-in");
+  scoreWrapper.classList.add("fade-out-fast");
+  setTimeout(() => {
+    location.reload();
+  }, 500);
+}
 
 // Function for amount of questions
 selectAmount = (amount) => {
@@ -59,7 +68,12 @@ function getCurrentCategory(swiper) {
 }
 // Fetch question data
 async function fetchQuestions() {
-  let apiURL = `https://the-trivia-api.com/v2/questions?limit=${questionAmount}&difficulties=${difficulty}`;
+  let apiURL = `https://the-trivia-api.com/v2/questions?limit=${questionAmount}`;
+
+  // If the difficulty is not "random", add it as a query parameter
+  if (difficulty.toLowerCase() !== "random") {
+    apiURL += `&difficulties=${difficulty}`;
+  }
 
   // If the category is not an empty string, add it as a query parameter
   if (currentCategory) {
@@ -130,33 +144,35 @@ startGame = async () => {
   shuffle(answers);
   // Template for Trivia questions and answers
   html += `
-  <img
-  class="questionMarkIcon"
-  src="./images/icons8-question-96.png"
-  alt="Question-mark icon"
-  srcset=""
-  />
-  <h1 class="triviaTitle">Trivia Challenge</h1>
-  <div id="triviaContainer" class="triviaContainer fade-in">
-  <div class="questionBox">
-    <div class="question">${questions[qNumID].question.text}</div>
-  </div>
-  <div class="answerBox">
-    <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
-    <div class="answer" onclick="checkAnswer(this)">${answers[1]}</div>
-    <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
-    <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
-  </div>
-  </div>
+  <div class="triviaWrapper fade-in" id="triviaWrapper">
+    <img
+      class="questionMarkIcon"
+      src="./images/icons8-question-96.png"
+      alt="Question-mark icon"
+      srcset=""
+    />
+    <h1 class="titleText triviaTitle">Trivia Challenge</h1>
+    <div id="triviaContainer" class="triviaContainer">
+      <div class="questionBox">
+        <div class="question">${questions[qNumID].question.text}</div>
+      </div>
+      <div class="answerBox">
+        <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
+        <div class="answer" onclick="checkAnswer(this)">${answers[1]}</div>
+        <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
+        <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
+      </div>
+      </div>
+    </div>
       `;
   app.innerHTML = html;
   let answered = false;
   // Function to check the answer
   checkAnswer = (selectedChoice) => {
     // Fade out the trivia container
-    const triviaContainer = document.getElementById("triviaContainer");
-    triviaContainer.classList.remove("fade-in");
-    triviaContainer.classList.add("fade-out");
+    const triviaWrapper = document.getElementById("triviaWrapper");
+    triviaWrapper.classList.remove("fade-in");
+    triviaWrapper.classList.add("fade-out");
 
     let correctAnswer = `${questions[qNumID].correctAnswer}`;
     if (answered) {
@@ -180,7 +196,7 @@ startGame = async () => {
       // Goto next question after 1.5 seconds
       setTimeout(() => {
         nextQuestion();
-      }, 1500);
+      }, 1100);
     } else {
       selectedChoice.style.backgroundColor = "#FF6565";
       // Send data to local JSON server
@@ -197,7 +213,7 @@ startGame = async () => {
       // Goto next question after 1.5 seconds
       setTimeout(() => {
         nextQuestion();
-      }, 1500);
+      }, 1100);
       // Highlight correct answer if you chose wrong
       let choices = document.getElementsByClassName("answer");
       for (let i = 0; i < choices.length; i++) {
@@ -215,11 +231,15 @@ startGame = async () => {
     answered = false;
     // Score result screen when all questions are answered
     if (qNumID == questionAmount - 1) {
-      app.innerHTML = `<h2 class="titleText">You got ${score} of ${questions.length} answers correct.</h2>
-       <div class="final-buttons"> 
-        <button onclick="location.reload()">Try Again</button>
-        <a href="/dashboard"><button>View Stats</button></a>
+      
+      app.innerHTML = `
+      <div id="score-wrapper" class="score-wrapper fade-in">
+      <h2 class="titleText">You got ${score} of ${questions.length} answers correct.</h2>
+      <div class="final-buttons">
+        <button onclick="scoreFade()">Try Again</button>
+        <a href="/stats"><button>View Stats</button></a>
       </div>
+    </div>
       `;
       return;
     }
@@ -233,25 +253,30 @@ startGame = async () => {
     shuffle(answers);
     // Template for Trivia questions and answers
     html += `
-    <img
-    class="questionMarkIcon"
-    src="./images/icons8-question-96.png"
-    alt="Question-mark icon"
-    srcset=""
-    />
-    <h1 class="triviaTitle">Trivia Challenge</h1>
-    <div id="triviaContainer" class="triviaContainer fade-in">
-    <div class="questionBox">
-      <div class="question">${questions[qNumID].question.text}</div>
-    </div>
-    <div class="answerBox">
-      <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
-      <div class="answer" onclick="checkAnswer(this)">${answers[1]}</div>
-      <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
-      <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
-    </div>
-    </div>
-    `;
+    <div class="triviaWrapper fade-in" id="triviaWrapper">
+      <img
+        class="questionMarkIcon"
+        src="./images/icons8-question-96.png"
+        alt="Question-mark icon"
+        srcset=""
+      />
+      <h1 class="titleText triviaTitle">Trivia Challenge</h1>
+      <div id="triviaContainer" class="triviaContainer">
+        <div class="questionBox">
+          <div class="question">${questions[qNumID].question.text}</div>
+        </div>
+        <div class="answerBox">
+          <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
+          <div class="answer" onclick="checkAnswer(this)">${answers[1]}</div>
+          <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
+          <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
+        </div>
+        </div>
+      </div>
+        `;
     app.innerHTML = html;
+    
   };
 };
+
+

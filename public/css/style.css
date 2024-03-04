@@ -43,10 +43,21 @@ body {
   animation: fadeIn 600ms ease-in;
 }
 .fade-out {
-  animation: fadeOut 1600ms ease-out;
+  animation: fadeOut 1200ms ease-out;
+}
+.fade-out-fast {
+  animation: fadeOut 600ms ease-out;
 }
 
 /* Layout */
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
 
 h1 {
   font-family: "Archivo", sans-serif;
@@ -61,28 +72,13 @@ h1 {
 }
 
 .questionMarkIcon {
-  position: fixed;
-  top: 2em;
-}
-
-.questionMarkIcon-title {
-  position: fixed;
-  top: 9em;
+ margin-bottom: .5em;
 }
 
 .titleText {
   font-size: 2.3em;
   font-weight: 900;
   margin-bottom: 0.2em;
-  text-shadow: 0.075em 0.075em 0 #ffc400;
-  text-align: center;
-}
-
-.triviaTitle {
-  position: fixed;
-  top: 4em;
-  font-size: 2.3em;
-  font-weight: 900;
   text-shadow: 0.075em 0.075em 0 #ffc400;
   text-align: center;
 }
@@ -121,8 +117,15 @@ h1 {
   margin: 0;
   bottom: 2px;
 }
+.score-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
 /* Swiper Nav */
+
 .swiper-slide {
   display: flex;
   justify-content: center;
@@ -198,6 +201,17 @@ h1 {
 }
 
 /* Trivia container Styling */
+
+.triviaWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.triviaTitle {
+  margin-bottom: 0.6em;
+}
 
 .triviaContainer {
   display: flex;
@@ -350,4 +364,8 @@ button:hover {
 
 .questionAmount button {
   padding: 0 1.25em;
+}
+
+.difficultyBtns button{
+  padding: 0 .75em;
 }

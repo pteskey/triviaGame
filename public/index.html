@@ -1,95 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="shortcut icon"
-      href="./images/icons8-question-96.png"
-      type="image/x-icon"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Swiper CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/swiper/swiper-bundle.min.css"
-    />
 
-    <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <title>Trivia Challenge</title>
-    <link rel="stylesheet" href="./css/reset.css" />
-    <link rel="stylesheet" href="./css/style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="./images/icons8-question-96.png" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <title>Trivia Challenge</title>
+</head>
 
-  <body id="app">
-    <div class="title fade-in-slow" id="title">
-      <img
-        class="questionMarkIcon-title"
-        src="./images/icons8-question-96.png"
-        alt="Question-mark icon"
-        srcset=""
-      />
+<body id="app">
+  <div class="title fade-in-slow" id="title">
+    <header>
+      <img class="questionMarkIcon" src="./images/icons8-question-96.png" alt="Question-mark icon" srcset="" />
       <h1 class="titleText">Trivia Challenge</h1>
-
-      <div class="options">
-        <span class="aligntext">Select Difficulty</span>
-        <div class="difficultyBtns">
-          <button onclick="selectDifficulty('easy')">Easy</button>
-          <button onclick="selectDifficulty('medium')">Medium</button>
-          <button onclick="selectDifficulty('hard')">Hard</button>
-        </div>
-        <span class="aligntext">Select amount of Questions</span>
-        <div class="questionAmount">
-          <button onclick="selectAmount(5)">5</button>
-          <button onclick="selectAmount(10)">10</button>
-          <button onclick="selectAmount(15)">15</button>
-          <button onclick="selectAmount(20)">20</button>
-        </div>
-        <span class="aligntext category-label">Select Category</span>
+    </header>
+    <div class="options">
+      <span class="aligntext">Select Difficulty</span>
+      <div class="difficultyBtns">
+        <button onclick="selectDifficulty('easy')">Easy</button>
+        <button onclick="selectDifficulty('medium')">Medium</button>
+        <button onclick="selectDifficulty('hard')">Hard</button>
+        <button onclick="selectDifficulty('random')">Random</button>
       </div>
-      <div class="swiper-container">
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">Any</div>
-          <div class="swiper-slide">Music</div>
-          <div class="swiper-slide">Sport and Leisure</div>
-          <div class="swiper-slide">Film and TV</div>
-          <div class="swiper-slide">Arts and Literature</div>
-          <div class="swiper-slide">History</div>
-          <div class="swiper-slide">Society and Culture</div>
-          <div class="swiper-slide">Science</div>
-          <div class="swiper-slide">Geography</div>
-          <div class="swiper-slide">Food and Drink</div>
-          <div class="swiper-slide">General Knowledge</div>
-        </div>
-        <div class="swiper-button-next"></div>
+      <span class="aligntext">Select amount of Questions</span>
+      <div class="questionAmount">
+        <button onclick="selectAmount(5)">5</button>
+        <button onclick="selectAmount(10)">10</button>
+        <button onclick="selectAmount(15)">15</button>
+        <button onclick="selectAmount(20)">20</button>
       </div>
-
-      <button id="startBtn" onclick="startGame()">Start Game</button>
-      <div class="aligntext" id="displayoptions">
-        5 Questions on Easy Difficulty
-      </div>
+      <span class="aligntext category-label">Select Category</span>
     </div>
-    <div class="attribution">
-      <div>
-        <a target="_blank" href="https://icons8.com/icon/103807/question-mark"
-          >Question</a
-        >
-        and
-        <a target="_blank" href="https://icons8.com/icon/115723/arrow">Arrow</a>
-        icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+    <div class="swiper-container">
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">Any</div>
+        <div class="swiper-slide">Music</div>
+        <div class="swiper-slide">Sport and Leisure</div>
+        <div class="swiper-slide">Film and TV</div>
+        <div class="swiper-slide">Arts and Literature</div>
+        <div class="swiper-slide">History</div>
+        <div class="swiper-slide">Society and Culture</div>
+        <div class="swiper-slide">Science</div>
+        <div class="swiper-slide">Geography</div>
+        <div class="swiper-slide">Food and Drink</div>
+        <div class="swiper-slide">General Knowledge</div>
       </div>
-      <div>
-        Question and Answer data provided by
-        <a target="_blank" href="https://the-trivia-api.com/">The Trivia API</a>
-      </div>
+      <div class="swiper-button-next"></div>
     </div>
-    <script src="./js/index.js"></script>
-  </body>
+
+    <button id="startBtn" onclick="startGame()">Start Game</button>
+    <div class="aligntext" id="displayoptions">
+      5 Questions on Easy Difficulty
+    </div>
+  </div>
+  <div class="attribution fade-in-slow">
+    <div>
+      <a target="_blank" href="https://icons8.com/icon/103807/question-mark">Question</a>
+      and
+      <a target="_blank" href="https://icons8.com/icon/115723/arrow">Arrow</a>
+      icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+    </div>
+    <div>
+      Question and Answer data provided by
+      <a target="_blank" href="https://the-trivia-api.com/">The Trivia API</a>
+    </div>
+  </div>
+  <script src="./js/index.js"></script>
+</body>
+
 </html>
