@@ -17,7 +17,7 @@ scoreFade = () => {
   setTimeout(() => {
     location.reload();
   }, 500);
-}
+};
 scoreFadeStats = () => {
   const scoreWrapper = document.getElementById("score-wrapper");
   scoreWrapper.classList.remove("fade-in");
@@ -25,7 +25,7 @@ scoreFadeStats = () => {
   setTimeout(() => {
     location.assign("/stats");
   }, 500);
-}
+};
 
 // Function for amount of questions
 selectAmount = (amount) => {
@@ -100,22 +100,40 @@ const shuffle = (array) => {
   }
   return array;
 };
+
+let isUpdating = false;
+
 // Function to update the options display
 function updateDisplay() {
-  // Start the hide animation
-  optionDisplay.classList.add('hide');
+  // If an update is already in progress, don't do anything
+  if (isUpdating) return;
 
-  optionDisplay.addEventListener('transitionend', function () {
+  // Indicate that an update is in progress
+  isUpdating = true;
+
+  // Start the hide animation
+  optionDisplay.classList.add("hide");
+
+  // Wait for the hide animation to end before updating the content
+  setTimeout(() => {
     // Update the content
     optionDisplay.innerHTML = `${questionAmount
       .toString()
-      .replace(/^\w/, (c) => c.toUpperCase())} Questions on ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
-      } Difficulty`;
+      .replace(/^\w/, (c) => c.toUpperCase())} Questions on ${
+      difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
+    } Difficulty`;
 
     // Start the show animation
-    optionDisplay.classList.remove('hide');
-  });
+    optionDisplay.classList.remove("hide");
+
+    // Wait for the show animation to end before allowing another update
+    setTimeout(() => {
+      // Indicate that the update is complete
+      isUpdating = false;
+    }, 500); // Replace 500 with the duration of your show animation
+  }, 500); // Replace 500 with the duration of your hide animation
 }
+
 // Initialize game
 startGame = async () => {
   // Async function to send data to local JSON server
@@ -238,7 +256,6 @@ startGame = async () => {
     answered = false;
     // Score result screen when all questions are answered
     if (qNumID == questionAmount - 1) {
-
       app.innerHTML = `
       <div id="score-wrapper" class="score-wrapper fade-in">
       <h2 class="titleText">You got ${score} of ${questions.length} answers correct.</h2>
@@ -282,8 +299,5 @@ startGame = async () => {
       </div>
         `;
     app.innerHTML = html;
-
   };
 };
-
-

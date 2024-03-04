@@ -1,10 +1,14 @@
 const charts = document.querySelectorAll(".chart");
 let currentChart = 0;
+const nextButton = document.getElementById("next");
+const previousButton = document.getElementById("previous");
 
 // Make the first chart visible
 gsap.set(charts[currentChart], { autoAlpha: 1, x: "0%", display: "block" });
 
 document.getElementById("next").addEventListener("click", function () {
+  nextButton.disabled = true;
+  previousButton.disabled = true;
   // Use GSAP to animate the current chart out and to the left
   gsap.to(charts[currentChart], {
     autoAlpha: 0,
@@ -26,6 +30,11 @@ document.getElementById("next").addEventListener("click", function () {
           display: "block",
           duration: 1,
           ease: "power2.inOut",
+          onComplete: function () {
+            // Enable the buttons
+            nextButton.disabled = false;
+            previousButton.disabled = false;
+          },
         } // Add easing
       );
     },
@@ -33,6 +42,8 @@ document.getElementById("next").addEventListener("click", function () {
 });
 
 document.getElementById("previous").addEventListener("click", function () {
+  nextButton.disabled = true;
+  previousButton.disabled = true;
   // Use GSAP to animate the current chart out and to the right
   gsap.to(charts[currentChart], {
     autoAlpha: 0,
@@ -55,8 +66,8 @@ document.getElementById("previous").addEventListener("click", function () {
           duration: 1,
           ease: "power2.inOut",
           onComplete: function () {
-            // Update the chart to re-trigger the animations
-            chartInstances[currentChart].update();
+            nextButton.disabled = false;
+            previousButton.disabled = false;
           },
         } // Add easing
       );
