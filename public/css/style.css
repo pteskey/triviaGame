@@ -56,7 +56,6 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
 }
 
 h1 {
@@ -72,7 +71,7 @@ h1 {
 }
 
 .questionMarkIcon {
- margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 .titleText {
@@ -152,24 +151,25 @@ h1 {
   height: 2em;
 }
 
-.swiper-button-next, .swiper-button-prev {
+.swiper-button-next,
+.swiper-button-prev {
   position: absolute;
   top: -6px;
   width: 50px;
   height: 50px;
-  z-index: 10; 
+  z-index: 10;
 }
 
 .swiper-button-next {
   right: -5em;
-  background-image: url('../images/icons8-arrow-100-right.png');
-  background-size: 100% 100%; 
+  background-image: url("../images/icons8-arrow-100-right.png");
+  background-size: 100% 100%;
 }
 
 .swiper-button-prev {
   left: -5em;
-  background-image: url('../images/icons8-arrow-100-left.png');
-  background-size: 100% 100%; 
+  background-image: url("../images/icons8-arrow-100-left.png");
+  background-size: 100% 100%;
 }
 
 #startBtn {
@@ -366,6 +366,6 @@ button:hover {
   padding: 0 1.25em;
 }
 
-.difficultyBtns button{
-  padding: 0 .75em;
+.difficultyBtns button {
+  padding: 0 0.75em;
 }

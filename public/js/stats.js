@@ -497,11 +497,11 @@ new Chart(document.getElementById("accuracyOverTime"), {
 });
 
 document.getElementById("btn").addEventListener("click", function (event) {
-  event.preventDefault(); // Prevent the default action (the href redirect)
+  event.preventDefault();
   document.body.classList.remove("fade-in");
-  document.body.classList.add("fade-out"); // Add the fadeOut class to the body
+  document.body.classList.add("fade-out");
 
   setTimeout(function () {
-    window.location.href = event.target.href; // Redirect to the homepage after the animation is complete
-  }, 980); // The timeout should match the duration of the fade out animation
+    window.location.href = event.target.href;
+  }, 990);
 });

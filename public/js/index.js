@@ -10,12 +10,20 @@ selectDifficulty = (level) => {
   return difficulty;
 };
 // Fade out score screen and reload
-scoreFade = ()=> {
+scoreFade = () => {
   const scoreWrapper = document.getElementById("score-wrapper");
   scoreWrapper.classList.remove("fade-in");
   scoreWrapper.classList.add("fade-out-fast");
   setTimeout(() => {
     location.reload();
+  }, 500);
+}
+scoreFadeStats = () => {
+  const scoreWrapper = document.getElementById("score-wrapper");
+  scoreWrapper.classList.remove("fade-in");
+  scoreWrapper.classList.add("fade-out-fast");
+  setTimeout(() => {
+    location.assign("/stats");
   }, 500);
 }
 
@@ -97,13 +105,12 @@ function updateDisplay() {
   // Start the hide animation
   optionDisplay.classList.add('hide');
 
-  optionDisplay.addEventListener('transitionend', function() {
+  optionDisplay.addEventListener('transitionend', function () {
     // Update the content
     optionDisplay.innerHTML = `${questionAmount
       .toString()
-      .replace(/^\w/, (c) => c.toUpperCase())} Questions on ${
-      difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
-    } Difficulty`;
+      .replace(/^\w/, (c) => c.toUpperCase())} Questions on ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
+      } Difficulty`;
 
     // Start the show animation
     optionDisplay.classList.remove('hide');
@@ -231,13 +238,13 @@ startGame = async () => {
     answered = false;
     // Score result screen when all questions are answered
     if (qNumID == questionAmount - 1) {
-      
+
       app.innerHTML = `
       <div id="score-wrapper" class="score-wrapper fade-in">
       <h2 class="titleText">You got ${score} of ${questions.length} answers correct.</h2>
       <div class="final-buttons">
         <button onclick="scoreFade()">Try Again</button>
-        <a href="/stats"><button>View Stats</button></a>
+        <button onclick="scoreFadeStats()">View Stats</button>
       </div>
     </div>
       `;
@@ -275,7 +282,7 @@ startGame = async () => {
       </div>
         `;
     app.innerHTML = html;
-    
+
   };
 };
 
