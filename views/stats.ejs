@@ -14,7 +14,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body>
+<body class="fade-in">
   <h1 class="titleText">Trivia Stats</h1>
   <button id="next">
     <img src="./images/icons8-arrow-100-right.png" alt="">
@@ -30,7 +30,7 @@
       </div>
     </div>
     <div id="chart2" class="chart" style="display: none;">
-      <div id="totalchart" class="chart-item">
+      <div class="chart-item">
         <h2><span>Accuracy</span></h2>
         <canvas id="totalAccuracy"></canvas>
       </div>
@@ -60,7 +60,9 @@
       </div>
     </div>
   </div>
+
   <footer>
+    <a href="/" id="btn" class="btn">Play Again</a>
     Graphs generated with Charts.JS
   </footer>
   <script>

@@ -1,10 +1,5 @@
-var charts = document.querySelectorAll(".chart");
-var currentChart = 0;
-
-// Hide all charts except the first one
-for (var i = 1; i < charts.length; i++) {
-  gsap.set(charts[i], { autoAlpha: 0, x: "100%", display: "none" });
-}
+const charts = document.querySelectorAll(".chart");
+let currentChart = 0;
 
 // Make the first chart visible
 gsap.set(charts[currentChart], { autoAlpha: 1, x: "0%", display: "block" });
@@ -16,6 +11,7 @@ document.getElementById("next").addEventListener("click", function () {
     x: "-100%",
     display: "none",
     duration: 1,
+    ease: "power2.inOut", // Add easing
     onComplete: function () {
       // Increment currentChart, wrapping around to 0 if necessary
       currentChart = (currentChart + 1) % charts.length;
@@ -24,7 +20,13 @@ document.getElementById("next").addEventListener("click", function () {
       gsap.fromTo(
         charts[currentChart],
         { x: "100%", display: "none" },
-        { autoAlpha: 1, x: "0%", display: "block", duration: 1 }
+        {
+          autoAlpha: 1,
+          x: "0%",
+          display: "block",
+          duration: 1,
+          ease: "power2.inOut",
+        } // Add easing
       );
     },
   });
@@ -37,6 +39,7 @@ document.getElementById("previous").addEventListener("click", function () {
     x: "100%",
     display: "none",
     duration: 1,
+    ease: "power2.inOut", // Add easing
     onComplete: function () {
       // Decrement currentChart, wrapping around to the last chart if necessary
       currentChart = (currentChart - 1 + charts.length) % charts.length;
@@ -45,7 +48,17 @@ document.getElementById("previous").addEventListener("click", function () {
       gsap.fromTo(
         charts[currentChart],
         { x: "-100%", display: "none" },
-        { autoAlpha: 1, x: "0%", display: "block", duration: 1 }
+        {
+          autoAlpha: 1,
+          x: "0%",
+          display: "block",
+          duration: 1,
+          ease: "power2.inOut",
+          onComplete: function () {
+            // Update the chart to re-trigger the animations
+            chartInstances[currentChart].update();
+          },
+        } // Add easing
       );
     },
   });
@@ -183,6 +196,10 @@ new Chart(document.getElementById("accuracyByCategory"), {
         },
       },
     },
+    animation: {
+      duration: 3000,
+      easing: "easeInOutElastic",
+    },
   },
 });
 
@@ -231,6 +248,10 @@ new Chart(document.getElementById("questionsByCategory"), {
           },
         },
       },
+    },
+    animation: {
+      duration: 3000,
+      easing: "easeInOutElastic",
     },
   },
 });
@@ -298,6 +319,10 @@ new Chart(document.getElementById("accuracyByDifficulty"), {
         },
       },
     },
+    animation: {
+      duration: 3000,
+      easing: "easeInOutElastic",
+    },
   },
 });
 
@@ -344,20 +369,24 @@ new Chart(document.getElementById("questionsByDifficulty"), {
         },
       },
     },
+    animation: {
+      duration: 3000,
+      easing: "easeInOutElastic",
+    },
   },
 });
 
 // Calculate total accuracy
 const totalAccuracy = data.correctAnswers / data.totalQuestions;
 
-// Create pie chart
+// Total accuracy
 new Chart(document.getElementById("totalAccuracy"), {
-  type: "pie",
+  type: "bar",
   data: {
     labels: ["Correct Answers", "Incorrect Answers"],
     datasets: [
       {
-        data: [totalAccuracy, 1 - totalAccuracy],
+        data: [totalAccuracy * 100, (1 - totalAccuracy) * 100], // Multiply by 100 to convert to percentage
         backgroundColor: ["rgba(255, 196, 0, 0.5)", "rgba(0, 0, 0, 0.5)"],
         borderColor: ["rgba(0, 0, 0, 1)"],
         borderWidth: 2,
@@ -365,14 +394,34 @@ new Chart(document.getElementById("totalAccuracy"), {
     ],
   },
   options: {
+    indexAxis: "x",
     plugins: {
       legend: {
-        display: true,
-        labels: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100, // Set the maximum value of the y-axis to 100
+        ticks: {
+          font: chartFont,
+          color: "rgba(0, 0, 0, 1)",
+          callback: function (value, index, values) {
+            return value + "%"; // Append a '%' sign to the y-axis labels
+          },
+        },
+      },
+      x: {
+        ticks: {
           font: chartFont,
           color: "rgba(0, 0, 0, 1)",
         },
       },
+    },
+    animation: {
+      duration: 3000,
+      easing: "easeInOutElastic",
     },
   },
 });
@@ -440,5 +489,19 @@ new Chart(document.getElementById("accuracyOverTime"), {
         },
       },
     },
+    animation: {
+      duration: 3000,
+      easing: "easeInOutElastic",
+    },
   },
+});
+
+document.getElementById("btn").addEventListener("click", function (event) {
+  event.preventDefault(); // Prevent the default action (the href redirect)
+  document.body.classList.remove("fade-in");
+  document.body.classList.add("fade-out"); // Add the fadeOut class to the body
+
+  setTimeout(function () {
+    window.location.href = event.target.href; // Redirect to the homepage after the animation is complete
+  }, 980); // The timeout should match the duration of the fade out animation
 });
