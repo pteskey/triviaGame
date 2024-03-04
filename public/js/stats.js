@@ -503,5 +503,5 @@ document.getElementById("btn").addEventListener("click", function (event) {
 
   setTimeout(function () {
     window.location.href = event.target.href;
-  }, 990);
+  }, 950);
 });
