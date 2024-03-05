@@ -36,17 +36,17 @@ body {
 }
 
 .fade-in-slow {
-  animation: fadeIn 1600ms ease-in;
+  animation: fadeIn 1600ms ease-out;
 }
 
 .fade-in {
-  animation: fadeIn 600ms ease-in;
+  animation: fadeIn 1000ms ease-in-out;
 }
 .fade-out {
-  animation: fadeOut 1200ms ease-out;
+  animation: fadeOut 1600ms ease-in;
 }
 .fade-out-fast {
-  animation: fadeOut 600ms ease-out;
+  animation: fadeOut 600ms ease-in;
 }
 
 /* Layout */

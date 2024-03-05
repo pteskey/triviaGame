@@ -221,7 +221,7 @@ startGame = async () => {
       // Goto next question after 1.5 seconds
       setTimeout(() => {
         nextQuestion();
-      }, 1100);
+      }, 1500);
     } else {
       selectedChoice.style.backgroundColor = "#FF6565";
       // Send data to local JSON server
@@ -238,7 +238,7 @@ startGame = async () => {
       // Goto next question after 1.5 seconds
       setTimeout(() => {
         nextQuestion();
-      }, 1100);
+      }, 1500);
       // Highlight correct answer if you chose wrong
       let choices = document.getElementsByClassName("answer");
       for (let i = 0; i < choices.length; i++) {
