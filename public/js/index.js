@@ -6,9 +6,30 @@ const optionDisplay = document.getElementById("displayoptions");
 // Function for difficulty select
 selectDifficulty = (level) => {
   difficulty = level;
-  updateDisplay();
+  // updateDisplay();
   return difficulty;
 };
+// Function to handle button clicks
+function handleButtonClick(event) {
+  // Get the current button group
+  const buttonGroup = event.target.parentNode;
+
+  // Remove the 'selected' class from all buttons in the group
+  buttonGroup.querySelectorAll("button").forEach((button) => {
+    button.classList.remove("selected");
+  });
+
+  // Add the 'selected' class to the clicked button
+  event.target.classList.add("selected");
+}
+
+// Add the click event listener to all buttons
+document
+  .querySelectorAll(".difficultyBtns button, .questionAmount button")
+  .forEach((button) => {
+    button.addEventListener("click", handleButtonClick);
+  });
+
 // Fade out score screen and reload
 scoreFade = () => {
   const scoreWrapper = document.getElementById("score-wrapper");
@@ -27,10 +48,66 @@ scoreFadeStats = () => {
   }, 500);
 };
 
+let isFiftyFiftyUsed = false;
+let isPhoneAFriendUsed = false;
+fiftyFifty = () => {
+  if (isFiftyFiftyUsed) {
+    return;
+  }
+  // Get all answer elements
+  const answers = document.getElementsByClassName("answer");
+
+  // Count how many incorrect answers have been removed
+  let removed = 0;
+
+  // Loop through the answers
+  for (let i = 0; i < answers.length; i++) {
+    // If the answer is incorrect and we haven't removed two answers yet
+    if (
+      answers[i].innerText !== questions[qNumID].correctAnswer &&
+      removed < 2
+    ) {
+      // Remove the answer
+      answers[i].innerText = "";
+      answers[i].style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+
+      // Increment the count
+      removed++;
+    }
+  }
+
+  // Disable the 50/50 button so it can't be used again
+  document.getElementById("fiftyFifty").disabled = true;
+  isFiftyFiftyUsed = true;
+};
+
+// Function to show the correct answer
+phoneAFriend = () => {
+  if (isPhoneAFriendUsed) {
+    return;
+  }
+
+  const friendText = document.getElementById("friend-answer");
+  const friendContainer = document.getElementById("friend-wrapper");
+  // Set the text to the correct answer
+  friendText.innerText = `Your friend thinks the answer is: ${questions[qNumID].correctAnswer}`;
+  // Disable the Phone a Friend button so it can't be used again
+  document.getElementById("phoneAFriend").disabled = true;
+  isPhoneAFriendUsed = true;
+  friendContainer.style.transform = "translateX(0)";
+};
+
+closeFriend = () => {
+  const friendContainer = document.getElementById("friend-wrapper");
+
+  // Translate the friend-wrapper off the screen
+  friendContainer.style.transform = "translateX(-100%)";
+};
+
 // Function for amount of questions
 selectAmount = (amount) => {
   questionAmount = amount;
-  updateDisplay();
+  // updateDisplay();
   return questionAmount;
 };
 //Swiper for category selection
@@ -90,6 +167,7 @@ async function fetchQuestions() {
 
   const response = await fetch(apiURL);
   const questions = await response.json();
+  console.log(questions);
   return questions;
 }
 // Function to Shuffle an Array
@@ -104,36 +182,39 @@ const shuffle = (array) => {
 let isUpdating = false;
 
 // Function to update the options display
-function updateDisplay() {
-  // If an update is already in progress, don't do anything
-  if (isUpdating) return;
+// function updateDisplay() {
+//   // If an update is already in progress, don't do anything
+//   if (isUpdating) return;
 
-  // Indicate that an update is in progress
-  isUpdating = true;
+//   // Indicate that an update is in progress
+//   isUpdating = true;
 
-  // Start the hide animation
-  optionDisplay.classList.add("hide");
+//   // Start the hide animation
+//   optionDisplay.classList.add("hide");
 
-  // Wait for the hide animation to end before updating the content
-  setTimeout(() => {
-    // Update the content
-    optionDisplay.innerHTML = `${questionAmount
-      .toString()
-      .replace(/^\w/, (c) => c.toUpperCase())} Questions on ${
-      difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
-    } Difficulty`;
+//   // Wait for the hide animation to end before updating the content
+//   setTimeout(() => {
+//     // Update the content
+//     optionDisplay.innerHTML = `${questionAmount
+//       .toString()
+//       .replace(/^\w/, (c) => c.toUpperCase())} Questions on ${
+//       difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
+//     } Difficulty`;
 
-    // Start the show animation
-    optionDisplay.classList.remove("hide");
+//     // Start the show animation
+//     optionDisplay.classList.remove("hide");
 
-    // Wait for the show animation to end before allowing another update
-    setTimeout(() => {
-      // Indicate that the update is complete
-      isUpdating = false;
-    }, 500); // Replace 500 with the duration of your show animation
-  }, 500); // Replace 500 with the duration of your hide animation
-}
+//     // Wait for the show animation to end before allowing another update
+//     setTimeout(() => {
+//       // Indicate that the update is complete
+//       isUpdating = false;
+//     }, 500); // Replace 500 with the duration of your show animation
+//   }, 500); // Replace 500 with the duration of your hide animation
+// }
 
+let questions;
+let qNumID = 0;
+let score = 0;
 // Initialize game
 startGame = async () => {
   // Async function to send data to local JSON server
@@ -159,9 +240,7 @@ startGame = async () => {
   //Default variables
   const app = document.querySelector("#app");
   let html = "";
-  let qNumID = 0;
-  let score = 0;
-  const questions = await fetchQuestions();
+  questions = await fetchQuestions();
   // Group and shuffle answers
   const answers = questions[qNumID].incorrectAnswers.concat(
     questions[qNumID].correctAnswer
@@ -170,13 +249,7 @@ startGame = async () => {
   // Template for Trivia questions and answers
   html += `
   <div class="triviaWrapper fade-in" id="triviaWrapper">
-    <img
-      class="questionMarkIcon"
-      src="./images/icons8-question-96.png"
-      alt="Question-mark icon"
-      srcset=""
-    />
-    <h1 class="titleText triviaTitle">Trivia Challenge</h1>
+    <div id="timer">20</div>
     <div id="triviaContainer" class="triviaContainer">
       <div class="questionBox">
         <div class="question">${questions[qNumID].question.text}</div>
@@ -187,18 +260,53 @@ startGame = async () => {
         <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
         <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
       </div>
-      </div>
     </div>
+    <div class="button-box">
+      <button onclick="fiftyFifty()" id="fiftyFifty">50/50</button>
+      <img class="questionMarkIcon" src="./images/icons8-question-96.png" alt="Question-mark icon" srcset="" />
+      <button onclick="phoneAFriend()" id="phoneAFriend"><img class="phone-icon" src="./images/phone-call-svgrepo-com.svg" alt="" srcset=""></button>
+    </div>
+  </div>
+  <div class="friend-wrapper friend-wrapper-out" id="friend-wrapper">
+    <div class="friend-container">
+      <div class="close-box" id="closeBox"><img src="./images/icons8-close-48.png" alt=""></div>
+      <div class="thought" id="friend-answer">Lorem ipsum, dolor sit amet consectetur adipisicing.</div>
+      <img class="friend" src="./images/nerd-svgrepo-com.svg" alt="" srcset="">
+    </div>
+  </div>
       `;
   app.innerHTML = html;
+  document.getElementById("closeBox").addEventListener("click", closeFriend);
   let answered = false;
+  startTimer = () => {
+    // Get the timer element
+    const timerElement = document.getElementById("timer");
+
+    // Set the initial time
+    let timeRemaining = 20;
+
+    // Update the timer every second
+    timer = setInterval(() => {
+      timeRemaining--;
+      timerElement.textContent = timeRemaining;
+
+      // When the time runs out, move to the next question
+      if (timeRemaining <= 0) {
+        clearInterval(timer);
+        nextQuestion();
+      }
+    }, 1500);
+  };
+  stopTimer = () => {
+    clearInterval(timer);
+  };
   // Function to check the answer
   checkAnswer = (selectedChoice) => {
     // Fade out the trivia container
     const triviaWrapper = document.getElementById("triviaWrapper");
     triviaWrapper.classList.remove("fade-in");
     triviaWrapper.classList.add("fade-out");
-
+    stopTimer();
     let correctAnswer = `${questions[qNumID].correctAnswer}`;
     if (answered) {
       return;
@@ -257,13 +365,31 @@ startGame = async () => {
     // Score result screen when all questions are answered
     if (qNumID == questionAmount - 1) {
       app.innerHTML = `
-      <div id="score-wrapper" class="score-wrapper fade-in">
-      <h2 class="titleText">You got ${score} of ${questions.length} answers correct.</h2>
-      <div class="final-buttons">
-        <button onclick="scoreFade()">Try Again</button>
-        <button onclick="scoreFadeStats()">View Stats</button>
-      </div>
+      <div class="confetti-container">
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+  </div>
+  <div id="score-wrapper" class="score-wrapper fade-in">
+    <h2 class="titleText">Congratulations!</h2>
+    <h2 class="titleText">You got ${score} of ${questions.length} answers correct.</h2>
+    <div class="final-buttons">
+      <button onclick="scoreFade()">Try Again</button>
+      <button onclick="scoreFadeStats()">View Stats</button>
     </div>
+  </div>
       `;
       return;
     }
@@ -278,26 +404,52 @@ startGame = async () => {
     // Template for Trivia questions and answers
     html += `
     <div class="triviaWrapper fade-in" id="triviaWrapper">
-      <img
-        class="questionMarkIcon"
-        src="./images/icons8-question-96.png"
-        alt="Question-mark icon"
-        srcset=""
-      />
-      <h1 class="titleText triviaTitle">Trivia Challenge</h1>
-      <div id="triviaContainer" class="triviaContainer">
-        <div class="questionBox">
-          <div class="question">${questions[qNumID].question.text}</div>
-        </div>
-        <div class="answerBox">
-          <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
-          <div class="answer" onclick="checkAnswer(this)">${answers[1]}</div>
-          <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
-          <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
-        </div>
-        </div>
+    <div id="timer">20</div>
+    <div id="triviaContainer" class="triviaContainer">
+      <div class="questionBox">
+        <div class="question">${questions[qNumID].question.text}</div>
       </div>
+      <div class="answerBox">
+        <div class="answer" onclick="checkAnswer(this)">${answers[0]}</div>
+        <div class="answer" onclick="checkAnswer(this)">${answers[1]}</div>
+        <div class="answer" onclick="checkAnswer(this)">${answers[2]}</div>
+        <div class="answer" onclick="checkAnswer(this)">${answers[3]}</div>
+      </div>
+    </div>
+    <div class="button-box">
+      <button onclick="fiftyFifty()" id="fiftyFifty">50/50</button>
+      <img class="questionMarkIcon" src="./images/icons8-question-96.png" alt="Question-mark icon" srcset="" />
+      <button onclick="phoneAFriend()" id="phoneAFriend"><img class="phone-icon" src="./images/phone-call-svgrepo-com.svg" alt="" srcset=""></button>
+    </div>
+  </div>
+  <div class="friend-wrapper friend-wrapper-out" id="friend-wrapper">
+    <div class="friend-container">
+      <div class="close-box" id="closeBox"><img src="./images/icons8-close-48.png" alt=""></div>
+      <div class="thought" id="friend-answer">Lorem ipsum, dolor sit amet consectetur adipisicing.</div>
+      <img class="friend" src="./images/nerd-svgrepo-com.svg" alt="" srcset="">
+    </div>
+  </div>
         `;
     app.innerHTML = html;
+    document.getElementById("closeBox").addEventListener("click", closeFriend);
+    startTimer();
+    if (isFiftyFiftyUsed) {
+      const fiftyFiftyButton = document.getElementById("fiftyFifty");
+      fiftyFiftyButton.disabled = true;
+      fiftyFiftyButton.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+      fiftyFiftyButton.style.cursor = "not-allowed";
+      fiftyFiftyButton.classList.add("used");
+    }
+
+    // Apply the disabled styles if the Phone a Friend button has been used
+    if (isPhoneAFriendUsed) {
+      const phoneAFriendButton = document.getElementById("phoneAFriend");
+      phoneAFriendButton.disabled = true;
+      phoneAFriendButton.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+      phoneAFriendButton.style.cursor = "not-allowed";
+      phoneAFriendButton.classList.add("used");
+    }
   };
+  startTimer();
+  // Function to remove two incorrect answers
 };

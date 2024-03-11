@@ -2,7 +2,7 @@ body {
   font-family: "Roboto Condensed", sans-serif;
   height: 100%;
   position: fixed;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   width: 100vw;
@@ -13,6 +13,7 @@ body {
   background-color: #e5e5f7;
   background-image: radial-gradient(#000 0.5px, #e5e5f7 0.5px);
   background-size: 15px 15px;
+  user-select: none;
 }
 
 /* Animations */
@@ -35,6 +36,30 @@ body {
   }
 }
 
+@keyframes bounceRight {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.5em);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounceLeft {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-0.5em);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .fade-in-slow {
   animation: fadeIn 1600ms ease-out;
 }
@@ -49,11 +74,18 @@ body {
   animation: fadeOut 600ms ease-in;
 }
 
+.bounce-right {
+  animation: bounceRight 0.25s ease-in-out;
+}
+
+.bounce-left {
+  animation: bounceLeft 0.25s ease-in-out;
+}
+
 /* Layout */
 
 header {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -63,7 +95,7 @@ h1 {
 }
 
 .title {
-  width: 20em;
+  width: 35em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,11 +103,12 @@ h1 {
 }
 
 .questionMarkIcon {
-  margin-bottom: 0.5em;
+  margin: 0.5em;
+  width: 6em;
 }
 
 .titleText {
-  font-size: 2.3em;
+  font-size: 3em;
   font-weight: 900;
   margin-bottom: 0.2em;
   text-shadow: 0.075em 0.075em 0 #ffc400;
@@ -91,7 +124,7 @@ h1 {
 .aligntext {
   align-self: center;
   margin-bottom: 1em;
-  font-size: 0.8em;
+  font-size: 1em;
   padding: 0.25em 0.6em 0.25em 0.6em;
   background-color: #e5e5f7;
   box-shadow: rgba(255, 196, 0) 0px 2px;
@@ -111,7 +144,7 @@ h1 {
 }
 
 .category-label {
-  font-size: 0.8em;
+  font-size: 1em;
   position: relative;
   margin: 0;
   bottom: 2px;
@@ -123,13 +156,31 @@ h1 {
   justify-content: center;
 }
 
+#timer {
+  font-family: "Archivo", sans-serif;
+  font-size: 3em;
+  font-weight: 900;
+  margin-bottom: 0.5em;
+  color: #ffc400;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 2px solid #ffc400;
+  border-radius: 50%;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  width: 2em;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: 2px solid #111;
+}
+
 /* Swiper Nav */
 
 .swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1em;
+  font-size: 1.5em;
   font-weight: bold;
   background-color: #e5e5f7;
   box-shadow: rgba(255, 196, 0) 0px -2px;
@@ -145,9 +196,17 @@ h1 {
   content: none;
 }
 
+.swiper-button-next:hover {
+  animation: bounceRight 0.5s ease-in-out;
+}
+
+.swiper-button-prev:hover {
+  animation: bounceLeft 0.5s ease-in-out;
+}
+
 .swiper-container {
   position: relative;
-  width: 10em;
+  width: 15em;
   height: 2em;
 }
 
@@ -155,19 +214,19 @@ h1 {
 .swiper-button-prev {
   position: absolute;
   top: -6px;
-  width: 50px;
-  height: 50px;
+  width: 75px;
+  height: 75px;
   z-index: 10;
 }
 
 .swiper-button-next {
-  right: -5em;
+  right: -7em;
   background-image: url("../images/icons8-arrow-100-right.png");
   background-size: 100% 100%;
 }
 
 .swiper-button-prev {
-  left: -5em;
+  left: -7em;
   background-image: url("../images/icons8-arrow-100-left.png");
   background-size: 100% 100%;
 }
@@ -207,7 +266,6 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  user-select: none;
 }
 
 .triviaTitle {
@@ -295,7 +353,187 @@ h1 {
   font-weight: bold;
 }
 
+.button-box {
+  width: 20em;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.phone-icon {
+  width: 2em;
+}
+
+.friend {
+  width: 9em;
+  align-self: center;
+}
+
+.close-box {
+  top: 0.5em;
+  right: 0.5em;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.friend-wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  transition: transform 0.4s ease-in;
+  transform: translateX(100%);
+}
+
+.friend-container {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
+  border-radius: 1em;
+  border: 2px solid #ffc400;
+  outline: 2px solid #111;
+  background-color: #e5e5f7;
+  background-image: radial-gradient(#000 0.5px, #e5e5f7 0.5px);
+  background-size: 15px 15px;
+  z-index: -3;
+}
+
+.thought {
+  display: flex;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 30px;
+  min-width: 40px;
+  max-width: 220px;
+  min-height: 40px;
+  margin: 20px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.thought:before,
+.thought:after {
+  content: "";
+  background-color: #fff;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  z-index: -1;
+}
+.thought:before {
+  width: 44px;
+  height: 44px;
+  top: -12px;
+  left: 28px;
+  box-shadow: -50px 30px 0 -12px #fff;
+}
+.thought:after {
+  bottom: -10px;
+  right: 26px;
+  width: 30px;
+  height: 30px;
+  box-shadow: 40px -34px 0 0 #fff, -28px -6px 0 -2px #fff,
+    -24px 17px 0 -6px #fff, -5px 25px 0 -10px #fff;
+}
+
 /* Score screen styling */
+
+.confetti-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.confetti {
+  width: 15px;
+  height: 15px;
+  background-color: #f2d74e;
+  position: absolute;
+  left: 50%;
+  animation: confetti 4s ease-in-out -2s infinite;
+  transform-origin: left top;
+  z-index: 99;
+}
+.confetti:nth-child(1) {
+  background-color: #f2d74e;
+  left: 10%;
+  animation-delay: 0;
+}
+.confetti:nth-child(2) {
+  background-color: #95c3de;
+  left: 20%;
+  animation-delay: -5s;
+}
+.confetti:nth-child(3) {
+  background-color: #ff9a91;
+  left: 30%;
+  animation-delay: -3s;
+}
+.confetti:nth-child(4) {
+  background-color: #f2d74e;
+  left: 40%;
+  animation-delay: -2.5s;
+}
+.confetti:nth-child(5) {
+  background-color: #95c3de;
+  left: 50%;
+  animation-delay: -4s;
+}
+.confetti:nth-child(6) {
+  background-color: #ff9a91;
+  left: 60%;
+  animation-delay: -6s;
+}
+.confetti:nth-child(7) {
+  background-color: #f2d74e;
+  left: 70%;
+  animation-delay: -1.5s;
+}
+.confetti:nth-child(8) {
+  background-color: #95c3de;
+  left: 80%;
+  animation-delay: -2s;
+}
+.confetti:nth-child(9) {
+  background-color: #ff9a91;
+  left: 90%;
+  animation-delay: -3.5s;
+}
+.confetti:nth-child(10) {
+  background-color: #f2d74e;
+  left: 100%;
+  animation-delay: -2.5s;
+}
+
+@keyframes confetti {
+  0% {
+    transform: rotateZ(15deg) rotateY(0deg) translate(0, 0);
+  }
+  25% {
+    transform: rotateZ(5deg) rotateY(360deg) translate(-5vw, 20vh);
+  }
+  50% {
+    transform: rotateZ(15deg) rotateY(720deg) translate(5vw, 60vh);
+  }
+  75% {
+    transform: rotateZ(5deg) rotateY(1080deg) translate(-10vw, 80vh);
+  }
+  100% {
+    transform: rotateZ(15deg) rotateY(1440deg) translate(10vw, 110vh);
+  }
+}
 
 .scoreresult {
   font-size: 4em;
@@ -320,7 +558,7 @@ button {
   cursor: pointer;
   display: flex;
   font-family: inherit;
-  font-size: 1em;
+  font-size: 1.25em;
   font-weight: bold;
   height: 3em;
   justify-content: center;
@@ -340,12 +578,12 @@ button:after {
   border-radius: 8px;
   content: "";
   display: block;
-  height: 48px;
+  height: 52px;
   left: 0;
   width: 100%;
   position: absolute;
-  top: -2px;
-  transform: translate(8px, 8px);
+  top: 0px;
+  transform: translate(12px, 16px);
   transition: transform 0.2s ease-out;
   z-index: -1;
 }
@@ -355,7 +593,7 @@ button:hover:after {
 }
 
 button:active {
-  background-color: #ffdeda;
+  background-color: #00ff73;
   outline: 0;
 }
 
@@ -363,10 +601,36 @@ button:hover {
   outline: 0;
 }
 
-.questionAmount button {
+#startBtn {
+  background-color: #00ff73;
+}
+
+.selected {
+  background-color: #00ff73;
+}
+
+.selected:after {
+  transform: translate(0, 0);
+}
+
+button:disabled {
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+button:disabled:after {
+  all: unset;
+}
+
+button.used:disabled:after {
+  all: unset;
+}
+
+/* .questionAmount button {
   padding: 0 1.25em;
 }
 
 .difficultyBtns button {
-  padding: 0 0.75em;
-}
+  padding: 1.5em;
+} */
