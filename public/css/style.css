@@ -721,6 +721,14 @@ button.used:disabled:after {
     left: -5em;
   }
 
+  .howto-content {
+    width: 20em;
+  }
+
+  .howto-content p {
+    font-size: 1em;
+  }
+
   #timer {
     font-size: 1.5em;
     width: 2em;
