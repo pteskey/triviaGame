@@ -16,9 +16,6 @@
 </head>
 
 <body id="app">
-
-
-
   <div class="title fade-in-slow" id="title">
     <header>
       <img class="questionMarkIcon" src="./images/icons8-question-96.png" alt="Question-mark icon" srcset="" />
@@ -59,8 +56,21 @@
       </div>
       <div class="swiper-button-next"></div>
     </div>
-
-    <button id="startBtn" onclick="startGame()">Start Game</button>
+    <div class="bottom-btns">
+      <button id="startBtn" onclick="startGame()">Start Game</button>
+      <button id="howtobtn" onclick="openModal()">How to Play</button>
+    </div>
+    <div class="howto" id="howto">
+      <div class="howto-content">
+        <div class="howto-close" id="howto-close"><img src="./images/icons8-close-48.png" alt=""></div>
+        <h2 class="titleText">How to Play</h2>
+        <p>Choose your difficulty, category, and amount of questions. Then click "Start Game" to begin. You will be
+          presented with a series of multiple choice questions. Select the answer you believe to be correct and then the game
+          will proceed to the next question. You are given two "lifelines" during the game, 50/50 and Phone-a-Friend.
+          50/50 will take away two incorrect answers and Phone-a-Friend will give you the correct answer. Upon completion of the game
+          you will be presented with your score and the option to play again or see some statistics. Good luck and enjoy some trivia!</p>
+      </div>
+    </div>
   </div>
   <div class="attribution fade-in-slow">
     <div>

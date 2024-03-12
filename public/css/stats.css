@@ -33,6 +33,38 @@ body {
   }
 }
 
+@keyframes bounceRight {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(1.2em);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounceLeft {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-1.2em);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.bounceLeft {
+  animation: bounceLeft 1000ms ease-in-out;
+}
+
+.bounceRight {
+  animation: bounceRight 1000ms ease-in-out;
+}
+
 .fade-out {
   animation: fadeOut 1000ms ease-in;
 }
@@ -52,16 +84,28 @@ button {
 
 #next {
   position: absolute;
-  right: 2em;
+  right: 4em;
   top: 50%;
   z-index: 999;
+  transition: transform 0.4s ease-out;
+}
+
+#next:hover,
+#next:focus {
+  animation: bounceRight 750ms ease-in-out;
+}
+
+#previous:hover,
+#previous:focus {
+  animation: bounceLeft 750ms ease-in-out;
 }
 
 #previous {
   position: absolute;
-  left: 2em;
+  left: 4em;
   top: 50%;
   z-index: 999;
+  transition: transform 0.4s ease-out;
 }
 
 .chart-container {
@@ -110,7 +154,7 @@ h2 span {
 
 .chart-item {
   position: relative;
-  width: 70%;
+  width: 60%;
   height: auto;
   margin: auto;
   padding: 1.2em;

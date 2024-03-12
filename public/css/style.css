@@ -149,12 +149,6 @@ h1 {
   margin: 0;
   bottom: 2px;
 }
-.score-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
 #timer {
   font-family: "Archivo", sans-serif;
@@ -231,20 +225,62 @@ h1 {
   background-size: 100% 100%;
 }
 
-#startBtn {
+.bottom-btns {
+  display: flex;
+  justify-content: center;
+  width: 100%;
   margin-top: 1em;
+  gap: 2em;
 }
 
-#displayoptions {
-  font-size: 1.2em;
-  margin-top: 1.5em;
-  box-shadow: rgba(255, 196, 0) 0px -2px;
-  border-bottom: 2px solid #ffc400;
-  transition: opacity 0.3s, transform 0.3s;
-}
-#displayoptions.hide {
+.howto {
+  position: absolute;
   opacity: 0;
-  transform: translateY(20px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(3px);
+  z-index: 999;
+  transition: opacity 0.4s ease-in;
+}
+
+.howto-content {
+  position: relative;
+  width: 28em;
+  border: 2px solid #ffc400;
+  outline: 2px solid #111;
+  border-radius: 0.5em;
+  padding: 1em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #e5e5f7;
+  background-image: radial-gradient(#000 0.5px, #e5e5f7 0.5px);
+  background-size: 15px 15px;
+}
+
+.howto-content h2 {
+  margin-bottom: 0.5em;
+}
+
+.howto-content p {
+  font-size: 1.25em;
+  margin-bottom: 1em;
+  text-align: center;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.howto-close {
+  width: 2em;
+  height: 2em;
+  position: absolute;
+  top: 0.7em;
+  right: 0.7em;
+  cursor: pointer;
 }
 
 .attribution {
@@ -541,8 +577,8 @@ h1 {
 
 .final-buttons {
   display: flex;
-  width: 20em;
-  justify-content: space-evenly;
+  width: 100%;
+  justify-content: space-around;
   margin-top: 1em;
 }
 
@@ -634,3 +670,76 @@ button.used:disabled:after {
 .difficultyBtns button {
   padding: 1.5em;
 } */
+
+@media (max-width: 600px) {
+  .title {
+    width: 20em;
+  }
+
+  .titleText {
+    font-size: 2em;
+  }
+  .questionAmount button {
+    padding: 0 1em;
+  }
+  .difficultyBtns button {
+    padding: 0.6em;
+  }
+  .aligntext {
+    font-size: 0.8em;
+  }
+
+  button {
+    font-size: 1em;
+    height: 40px;
+  }
+
+  button::after {
+    height: 38px;
+    transform: translate(8px, 8px);
+  }
+
+  .swiper-slide {
+    font-size: 1em;
+  }
+
+  .swiper-container {
+    width: 10em;
+    height: 1.5em;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 50px;
+    height: 50px;
+  }
+  .swiper-button-next {
+    right: -5em;
+  }
+
+  .swiper-button-prev {
+    left: -5em;
+  }
+
+  #timer {
+    font-size: 1.5em;
+    width: 2em;
+    height: 2em;
+  }
+
+  .triviaContainer {
+    width: 18em;
+  }
+
+  .questionMarkIcon {
+    width: 4em;
+  }
+
+  .question {
+    font-size: 0.9em;
+  }
+
+  .answer {
+    font-size: 0.8em;
+  }
+}
