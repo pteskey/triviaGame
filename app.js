@@ -1,20 +1,30 @@
+const db = require("./public/js/db");
 const express = require("express");
 const bodyParser = require("body-parser");
-const fs = require("fs");
-const fsp = require("fs").promises;
 const calculateStats = require("./public/js/calcdata");
 const cors = require("cors");
 const app = express();
 const PORT = 3000;
 app.set("view engine", "ejs");
+db.connect()
+  .then((obj) => {
+    obj.done(); // success, release the connection;
+  })
+  .catch((error) => {
+    if (error.code === "ECONNRESET") {
+      console.log("Connection reset, retrying...");
+      return db.connect();
+    } else {
+      console.log("ERROR:", error.message || error);
+    }
+  });
 
 app.get("/stats", async (req, res) => {
   try {
-    let rawData = await fsp.readFile("./data/data.json");
-    let jsonData = JSON.parse(rawData);
-    let data = jsonData.flatMap((obj) => obj.questions);
-    let stats = calculateStats(data);
-    // Render the dashboard view and pass the stats
+    let stats = await calculateStats();
+    if (!stats || Object.keys(stats).length === 0) {
+      console.error("Stats is empty");
+    }
     res.render("stats", { stats: stats });
   } catch (err) {
     console.error(err);
@@ -38,15 +48,18 @@ app.get("/api/data", async (req, res) => {
   }
 });
 
-// Endpoint to add data
 app.post("/api/data", async (req, res) => {
   try {
-    const newData = req.body;
+    const questions = req.body.questions;
 
-    const data = await getData();
-    data.push(newData);
+    if (!Array.isArray(questions)) {
+      res.status(400).json({ error: "Missing or invalid questions" });
+      return;
+    }
 
-    await saveData(data);
+    for (const question of questions) {
+      await saveData(question);
+    }
 
     res.json({ success: true, message: "Data added successfully" });
   } catch (error) {
@@ -55,25 +68,23 @@ app.post("/api/data", async (req, res) => {
   }
 });
 
-// Helper functions to read and write data
 async function getData() {
   try {
-    const rawData = fs.readFileSync("./data/data.json", "utf8");
-    if (rawData.trim() === "") {
-      return []; // Return an empty array if the file is empty
-    }
-    return JSON.parse(rawData);
+    return await db.any("SELECT * FROM data");
   } catch (error) {
-    console.error("Error reading or parsing data.json:", error);
+    console.error("Error reading from database:", error);
     return []; // Return an empty array if there was an error
   }
 }
 
-async function saveData(data) {
+async function saveData(question) {
   try {
-    await fsp.writeFile("./data/data.json", JSON.stringify(data));
+    await db.none(
+      "INSERT INTO question_stats(correct_answer, category, difficulty) VALUES($1, $2, $3)",
+      [question.correctlyAnswered, question.category, question.difficulty]
+    );
   } catch (error) {
-    console.error("Error writing data.json:", error);
+    console.error("Error writing to database:", error);
   }
 }
 

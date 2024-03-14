@@ -1,14 +1,10 @@
-const fs = require("fs");
+const db = require("./db");
 
-let rawData = fs.readFileSync("data/data.json");
-let jsonData = JSON.parse(rawData);
+async function calculateStats() {
+  let data = await db.any("SELECT * FROM question_stats");
 
-// Flatten the array of questions
-let data = jsonData.flatMap((obj) => obj.questions);
-
-function calculateStats(data) {
   let totalQuestions = data.length;
-  let correctAnswers = data.filter((q) => q.correctlyAnswered).length;
+  let correctAnswers = data.filter((q) => q.correct_answer).length;
 
   let categories = [...new Set(data.map((q) => q.category))];
   let difficulties = ["easy", "medium", "hard"];
@@ -16,7 +12,7 @@ function calculateStats(data) {
   let accuracyByCategory = categories.map((category) => {
     let questionsInCategory = data.filter((q) => q.category === category);
     let correctInCategory = questionsInCategory.filter(
-      (q) => q.correctlyAnswered
+      (q) => q.correct_answer
     ).length;
     return {
       category,
@@ -27,7 +23,7 @@ function calculateStats(data) {
   let accuracyByDifficulty = difficulties.map((difficulty) => {
     let questionsInDifficulty = data.filter((q) => q.difficulty === difficulty);
     let correctInDifficulty = questionsInDifficulty.filter(
-      (q) => q.correctlyAnswered
+      (q) => q.correct_answer
     ).length;
     return {
       difficulty,
@@ -59,6 +55,5 @@ function calculateStats(data) {
   };
 }
 
-let stats = calculateStats(data);
-
+calculateStats();
 module.exports = calculateStats;
