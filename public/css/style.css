@@ -693,7 +693,7 @@ button.used:disabled:after {
   transform: translate(0, 0);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 644px) {
   .title {
     width: 20em;
   }
@@ -723,11 +723,11 @@ button.used:disabled:after {
   }
 
   button:hover:after {
-    transform: translate(0, -3px);
+    transform: translate(0, -2px);
   }
 
   .selected:after {
-    transform: translate(0, -3px);
+    transform: translate(0, -2px);
   }
 
   .swiper-slide {
