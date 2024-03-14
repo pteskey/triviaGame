@@ -2,26 +2,25 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const fsp = require("fs").promises;
-const calculateStats = require('./public/js/calcdata');
-
+const calculateStats = require("./public/js/calcdata");
+const cors = require("cors");
 const app = express();
 const PORT = 3000;
 app.set("view engine", "ejs");
 
-app.get('/stats', async (req, res) => {
+app.get("/stats", async (req, res) => {
   try {
-    let rawData = await fsp.readFile('./data/data.json');
+    let rawData = await fsp.readFile("./data/data.json");
     let jsonData = JSON.parse(rawData);
-    let data = jsonData.flatMap(obj => obj.questions);
+    let data = jsonData.flatMap((obj) => obj.questions);
     let stats = calculateStats(data);
     // Render the dashboard view and pass the stats
-    res.render('stats', { stats: stats });
+    res.render("stats", { stats: stats });
   } catch (err) {
     console.error(err);
-    res.status(500).send('An error occurred while reading the data.');
+    res.status(500).send("An error occurred while reading the data.");
   }
 });
-
 
 app.use(bodyParser.json());
 
@@ -77,6 +76,8 @@ async function saveData(data) {
     console.error("Error writing data.json:", error);
   }
 }
+
+app.use(cors());
 
 // Start the server
 app.listen(PORT, () => {
