@@ -1,43 +1,51 @@
 const fs = require("fs");
 
-
-let rawData = fs.readFileSync('data/data.json');
+let rawData = fs.readFileSync("data/data.json");
 let jsonData = JSON.parse(rawData);
 
 // Flatten the array of questions
-let data = jsonData.flatMap(obj => obj.questions);
+let data = jsonData.flatMap((obj) => obj.questions);
 
 function calculateStats(data) {
   let totalQuestions = data.length;
-  let correctAnswers = data.filter(q => q.correctlyAnswered).length;
+  let correctAnswers = data.filter((q) => q.correctlyAnswered).length;
 
-  let categories = [...new Set(data.map(q => q.category))];
-  let difficulties = ['easy', 'medium', 'hard'];
+  let categories = [...new Set(data.map((q) => q.category))];
+  let difficulties = ["easy", "medium", "hard"];
 
-  let accuracyOverTime = data.map((q, index, arr) => {
-    let correctUpToThisPoint = arr.slice(0, index + 1).filter(q => q.correctlyAnswered).length;
-    return { time: index + 1, accuracy: correctUpToThisPoint / (index + 1) };
+  let accuracyByCategory = categories.map((category) => {
+    let questionsInCategory = data.filter((q) => q.category === category);
+    let correctInCategory = questionsInCategory.filter(
+      (q) => q.correctlyAnswered
+    ).length;
+    return {
+      category,
+      accuracy: correctInCategory / questionsInCategory.length,
+    };
   });
 
-  let accuracyByCategory = categories.map(category => {
-    let questionsInCategory = data.filter(q => q.category === category);
-    let correctInCategory = questionsInCategory.filter(q => q.correctlyAnswered).length;
-    return { category, accuracy: correctInCategory / questionsInCategory.length };
+  let accuracyByDifficulty = difficulties.map((difficulty) => {
+    let questionsInDifficulty = data.filter((q) => q.difficulty === difficulty);
+    let correctInDifficulty = questionsInDifficulty.filter(
+      (q) => q.correctlyAnswered
+    ).length;
+    return {
+      difficulty,
+      accuracy: correctInDifficulty / questionsInDifficulty.length,
+    };
   });
 
-  let accuracyByDifficulty = difficulties.map(difficulty => {
-    let questionsInDifficulty = data.filter(q => q.difficulty === difficulty);
-    let correctInDifficulty = questionsInDifficulty.filter(q => q.correctlyAnswered).length;
-    return { difficulty, accuracy: correctInDifficulty / questionsInDifficulty.length };
-  });
-
-  let questionsByCategory = categories.map(category => {
-    let questionsInCategory = data.filter(q => q.category === category).length;
+  let questionsByCategory = categories.map((category) => {
+    let questionsInCategory = data.filter(
+      (q) => q.category === category
+    ).length;
     return { category, questions: questionsInCategory };
   });
 
-  let questionsByDifficulty = difficulties.map(difficulty => {
-    let questionsInDifficulty = data.filter(q => q.difficulty === difficulty).length;
+  let questionsByDifficulty = difficulties.map((difficulty) => {
+    let questionsInDifficulty = data.filter(
+      (q) => q.difficulty === difficulty
+    ).length;
     return { difficulty, questions: questionsInDifficulty };
   });
 
@@ -48,7 +56,6 @@ function calculateStats(data) {
     accuracyByDifficulty,
     questionsByCategory,
     questionsByDifficulty,
-    accuracyOverTime
   };
 }
 

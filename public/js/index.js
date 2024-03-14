@@ -9,8 +9,11 @@ let isFiftyFiftyUsed = false;
 let isPhoneAFriendUsed = false;
 let answered = false;
 const app = document.querySelector("#app");
-const correctSound = new Audio("../sounds/correct-38597.mp3");
+const correctSound = new Audio("../sounds/correct.wav");
 const incorrectSound = new Audio("../sounds/buzzer-or-wrong-answer-20582.wav");
+const cheerSound = new Audio("../sounds/applause.mp3");
+const losingHorn = new Audio("../sounds/losing-horn.mp3");
+const wowSound = new Audio("../sounds/wowzer.wav");
 
 // Function to Shuffle an Array
 const shuffle = (array) => {
@@ -53,6 +56,28 @@ document
   .forEach((button) => {
     button.addEventListener("click", handleButtonClick);
   });
+
+//Swiper for category selection
+const swiper = new Swiper(".swiper-container", {
+  centeredSlides: true,
+  slidesOffsetBefore: 0,
+  slidesOffsetAfter: 0,
+  speed: 500,
+  slidesPerView: 1,
+  spaceBetween: 0,
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  on: {
+    init: function () {
+      currentCategory = getCurrentCategory(this); // Update currentCategory
+    },
+    slideChangeTransitionEnd: function () {
+      currentCategory = getCurrentCategory(this); // Update currentCategory
+    },
+  },
+});
 
 // Game Options
 selectDifficulty = (level) => {
@@ -122,7 +147,35 @@ phoneAFriend = () => {
   }
   const friendText = document.getElementById("friend-answer");
   const friendContainer = document.getElementById("friend-wrapper");
-  friendText.innerText = `Your friend thinks the answer is: ${questions[qNumID].correctAnswer}`;
+
+  let friendAnswer;
+  const accuracy = Math.random() * 100;
+
+  let incorrectAnswers = questions[qNumID].incorrectAnswers;
+  let randomIndex = Math.floor(Math.random() * incorrectAnswers.length);
+  let randomIncorrectAnswer = incorrectAnswers[randomIndex];
+
+  switch (difficulty) {
+    case "easy":
+      friendAnswer = questions[qNumID].correctAnswer;
+      break;
+    case "medium":
+      if (accuracy <= 85) {
+        friendAnswer = questions[qNumID].correctAnswer;
+      } else {
+        friendAnswer = randomIncorrectAnswer;
+      }
+      break;
+    case "hard":
+      if (accuracy <= 70) {
+        friendAnswer = questions[qNumID].correctAnswer;
+      } else {
+        friendAnswer = randomIncorrectAnswer;
+      }
+      break;
+  }
+
+  friendText.innerText = `Your friend thinks the answer is: ${friendAnswer}`;
   document.getElementById("phoneAFriend").disabled = true;
   isPhoneAFriendUsed = true;
   friendContainer.style.transform = "translateX(0)";
@@ -132,28 +185,6 @@ closeFriend = () => {
   const friendContainer = document.getElementById("friend-wrapper");
   friendContainer.style.transform = "translateX(-100%)";
 };
-
-//Swiper for category selection
-const swiper = new Swiper(".swiper-container", {
-  centeredSlides: true,
-  slidesOffsetBefore: 0,
-  slidesOffsetAfter: 0,
-  speed: 500,
-  slidesPerView: 1,
-  spaceBetween: 0,
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-  on: {
-    init: function () {
-      currentCategory = getCurrentCategory(this); // Update currentCategory
-    },
-    slideChangeTransitionEnd: function () {
-      currentCategory = getCurrentCategory(this); // Update currentCategory
-    },
-  },
-});
 
 // Fetch question data
 async function fetchQuestions() {
@@ -206,6 +237,9 @@ checkAnswer = (selectedChoice) => {
     correctSound.play();
     selectedChoice.style.backgroundColor = "#00FF73";
     score++;
+    document.getElementById(
+      "score"
+    ).innerHTML = `${score} <span class="score-divider">//</span> ${questions.length}`;
     const correctWrite = {
       questions: [
         {
@@ -271,14 +305,18 @@ startGame = async () => {
     </div>
     <div class="button-box">
       <button onclick="fiftyFifty()" id="fiftyFifty">50/50</button>
-      <img class="questionMarkIcon" src="./images/icons8-question-96.png" alt="Question-mark icon" srcset="" />
+      <div class="score-box">
+        <div class="score-title">Score</div>
+        <div class="score" id="score">${score} <span class="score-divider">//</span> ${questions.length}</div>
+      </div>
+
       <button onclick="phoneAFriend()" id="phoneAFriend"><img class="phone-icon" src="./images/phone-call-svgrepo-com.svg" alt="" srcset=""></button>
     </div>
   </div>
   <div class="friend-wrapper friend-wrapper-out" id="friend-wrapper">
     <div class="friend-container">
       <div class="close-box" id="closeBox"><img src="./images/icons8-close-48.png" alt=""></div>
-      <div class="thought" id="friend-answer">Lorem ipsum, dolor sit amet consectetur adipisicing.</div>
+      <div class="thought" id="friend-answer"></div>
       <img class="friend" src="./images/nerd-svgrepo-com.svg" alt="" srcset="">
     </div>
   </div>
@@ -307,8 +345,13 @@ startGame = async () => {
     answered = false;
     // Score result screen when all questions are answered
     if (qNumID == questionAmount - 1) {
-      const cheerSound = new Audio("../sounds/Cheering.mp3");
-      cheerSound.play();
+      if (score === questionAmount) {
+        wowSound.play();
+      } else if (score > questionAmount / 2) {
+        cheerSound.play();
+      } else if (score <= questionAmount / 2) {
+        losingHorn.play();
+      }
       app.innerHTML = `
       <div class="confetti-container">
     <div class="confetti"></div>
@@ -360,7 +403,11 @@ startGame = async () => {
     </div>
     <div class="button-box">
       <button onclick="fiftyFifty()" id="fiftyFifty">50/50</button>
-      <img class="questionMarkIcon" src="./images/icons8-question-96.png" alt="Question-mark icon" srcset="" />
+      <div class="score-box">
+        <div class="score-title">Score</div>
+        <div class="score" id="score">${score} <span class="score-divider">//</span> ${questions.length}</div>
+      </div>
+
       <button onclick="phoneAFriend()" id="phoneAFriend"><img class="phone-icon" src="./images/phone-call-svgrepo-com.svg" alt="" srcset=""></button>
     </div>
   </div>

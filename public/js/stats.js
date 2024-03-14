@@ -388,124 +388,124 @@ new Chart(document.getElementById("questionsByDifficulty"), {
 });
 
 // Calculate total accuracy
-const totalAccuracy = data.correctAnswers / data.totalQuestions;
+// const totalAccuracy = data.correctAnswers / data.totalQuestions;
 
-// Total accuracy
-new Chart(document.getElementById("totalAccuracy"), {
-  type: "bar",
-  data: {
-    labels: ["Correct Answers", "Incorrect Answers"],
-    datasets: [
-      {
-        data: [totalAccuracy * 100, (1 - totalAccuracy) * 100], // Multiply by 100 to convert to percentage
-        backgroundColor: ["rgba(255, 196, 0, 0.5)", "rgba(0, 0, 0, 0.5)"],
-        borderColor: ["rgba(0, 0, 0, 1)"],
-        borderWidth: 2,
-      },
-    ],
-  },
-  options: {
-    indexAxis: "x",
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        max: 100, // Set the maximum value of the y-axis to 100
-        ticks: {
-          font: chartFont,
-          color: "rgba(0, 0, 0, 1)",
-          callback: function (value, index, values) {
-            return value + "%"; // Append a '%' sign to the y-axis labels
-          },
-        },
-      },
-      x: {
-        ticks: {
-          font: chartFont,
-          color: "rgba(0, 0, 0, 1)",
-        },
-      },
-    },
-    animation: {
-      duration: 3000,
-      easing: "easeInOutElastic",
-    },
-  },
-});
+// // Total accuracy
+// new Chart(document.getElementById("totalAccuracy"), {
+//   type: "bar",
+//   data: {
+//     labels: ["Correct Answers", "Incorrect Answers"],
+//     datasets: [
+//       {
+//         data: [totalAccuracy * 100, (1 - totalAccuracy) * 100], // Multiply by 100 to convert to percentage
+//         backgroundColor: ["rgba(255, 196, 0, 0.5)", "rgba(0, 0, 0, 0.5)"],
+//         borderColor: ["rgba(0, 0, 0, 1)"],
+//         borderWidth: 2,
+//       },
+//     ],
+//   },
+//   options: {
+//     indexAxis: "x",
+//     plugins: {
+//       legend: {
+//         display: false,
+//       },
+//     },
+//     scales: {
+//       y: {
+//         beginAtZero: true,
+//         max: 100, // Set the maximum value of the y-axis to 100
+//         ticks: {
+//           font: chartFont,
+//           color: "rgba(0, 0, 0, 1)",
+//           callback: function (value, index, values) {
+//             return value + "%"; // Append a '%' sign to the y-axis labels
+//           },
+//         },
+//       },
+//       x: {
+//         ticks: {
+//           font: chartFont,
+//           color: "rgba(0, 0, 0, 1)",
+//         },
+//       },
+//     },
+//     animation: {
+//       duration: 3000,
+//       easing: "easeInOutElastic",
+//     },
+//   },
+// });
 // Accuracy over time
-new Chart(document.getElementById("accuracyOverTime"), {
-  type: "line",
-  data: {
-    labels: data.accuracyOverTime.map((item) => item.time),
-    datasets: [
-      {
-        label: formatLabel("Accuracy Over Time"),
-        data: data.accuracyOverTime.map((item) => item.accuracy),
-        backgroundColor: "rgba(0, 0, 0, 0.7)",
-        borderColor: "rgba(255, 196, 0, 1)",
-        borderWidth: 2,
-        fill: false,
-        pointRadius: 0,
-      },
-    ],
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        callbacks: {
-          label: function (context) {
-            var label = context.dataset.label || "";
-            if (label) {
-              label += ": ";
-            }
-            if (context.parsed.y !== null) {
-              label += new Intl.NumberFormat("en-US", {
-                style: "percent",
-              }).format(context.parsed.y);
-            }
-            return label;
-          },
-        },
-      },
-    },
-    scales: {
-      y: {
-        max: 1,
-        ticks: {
-          font: chartFont,
-          color: "rgba(0, 0, 0, 1)",
-          callback: function (value, index, values) {
-            return (value * 100).toFixed(0) + "%"; //
-          },
-        },
-        grid: {
-          color: "rgba(0, 0, 0, 0.5)", //
-        },
-      },
-      x: {
-        ticks: {
-          font: chartFont,
-          color: "rgba(0, 0, 0, 0)",
-        },
-        grid: {
-          color: "rgba(0, 0, 0, 0.5)", //
-        },
-      },
-    },
-    animation: {
-      duration: 3000,
-      easing: "easeInOutElastic",
-    },
-  },
-});
+// new Chart(document.getElementById("accuracyOverTime"), {
+//   type: "line",
+//   data: {
+//     labels: data.accuracyOverTime.map((item) => item.time),
+//     datasets: [
+//       {
+//         label: formatLabel("Accuracy Over Time"),
+//         data: data.accuracyOverTime.map((item) => item.accuracy),
+//         backgroundColor: "rgba(0, 0, 0, 0.7)",
+//         borderColor: "rgba(255, 196, 0, 1)",
+//         borderWidth: 2,
+//         fill: false,
+//         pointRadius: 0,
+//       },
+//     ],
+//   },
+//   options: {
+//     responsive: true,
+//     plugins: {
+//       legend: {
+//         display: false,
+//       },
+//       tooltip: {
+//         callbacks: {
+//           label: function (context) {
+//             var label = context.dataset.label || "";
+//             if (label) {
+//               label += ": ";
+//             }
+//             if (context.parsed.y !== null) {
+//               label += new Intl.NumberFormat("en-US", {
+//                 style: "percent",
+//               }).format(context.parsed.y);
+//             }
+//             return label;
+//           },
+//         },
+//       },
+//     },
+//     scales: {
+//       y: {
+//         max: 1,
+//         ticks: {
+//           font: chartFont,
+//           color: "rgba(0, 0, 0, 1)",
+//           callback: function (value, index, values) {
+//             return (value * 100).toFixed(0) + "%"; //
+//           },
+//         },
+//         grid: {
+//           color: "rgba(0, 0, 0, 0.5)", //
+//         },
+//       },
+//       x: {
+//         ticks: {
+//           font: chartFont,
+//           color: "rgba(0, 0, 0, 0)",
+//         },
+//         grid: {
+//           color: "rgba(0, 0, 0, 0.5)", //
+//         },
+//       },
+//     },
+//     animation: {
+//       duration: 3000,
+//       easing: "easeInOutElastic",
+//     },
+//   },
+// });
 
 document.getElementById("btn").addEventListener("click", function (event) {
   event.preventDefault();
