@@ -128,7 +128,7 @@ button {
 
 h2 {
   position: absolute;
-  top: -37px;
+  top: -36.5px;
   text-shadow: 0.075em 0.075em 0 #ffc400;
   font-weight: bold;
   margin-bottom: 2px;
@@ -248,9 +248,17 @@ footer {
 }
 
 @media (max-width: 480px) {
+  .titleText {
+    top: 3em;
+  }
+
+  footer {
+    bottom: 3em;
+  }
+
   h2 {
     font-size: 1em;
-    top: -26px;
+    top: -27px;
   }
 
   #next {

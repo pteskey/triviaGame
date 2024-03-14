@@ -249,7 +249,7 @@ h1 {
 
 .howto-content {
   position: relative;
-  width: 28em;
+  width: 36em;
   border: 2px solid #ffc400;
   outline: 2px solid #111;
   border-radius: 0.5em;
@@ -267,12 +267,16 @@ h1 {
   margin-bottom: 0.5em;
 }
 
-.howto-content p {
-  font-size: 1.25em;
+.howto-content ul li {
   margin-bottom: 1em;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #e5e5f7;
+  padding: 0.5em 1em;
+  font-weight: 500;
+  border-radius: 0.5em;
+  border: 2px solid #ffc400;
+  outline: 2px solid #111;
   text-align: center;
-  line-height: 1.5;
-  text-align: justify;
 }
 
 .howto-close {
@@ -285,6 +289,7 @@ h1 {
 }
 
 .attribution {
+  font-weight: 500;
   position: fixed;
   text-align: center;
   bottom: 0.5em;
@@ -707,17 +712,26 @@ button.used:disabled:after {
   }
 
   button {
-    font-size: 1em;
+    font-size: 0.8em;
+    font-weight: 600;
     height: 40px;
   }
 
   button::after {
     height: 38px;
-    transform: translate(8px, 8px);
+    transform: translate(10px, 7px);
+  }
+
+  button:hover:after {
+    transform: translate(0, -3px);
+  }
+
+  .selected:after {
+    transform: translate(0, -3px);
   }
 
   .swiper-slide {
-    font-size: 1em;
+    font-size: 0.8em;
   }
 
   .swiper-container {
@@ -738,12 +752,16 @@ button.used:disabled:after {
     left: -5em;
   }
 
-  .howto-content {
-    width: 20em;
+  .category-label {
+    font-size: 0.8em;
   }
 
-  .howto-content p {
-    font-size: 1em;
+  .howto-content {
+    width: 22em;
+  }
+
+  .howto-content ul li {
+    font-size: 0.7em;
   }
 
   #timer {
