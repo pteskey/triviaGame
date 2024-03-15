@@ -34,7 +34,7 @@ app.get("/api/data", async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: `Internal Server Error: ${error.message}` });
   }
 });
 
@@ -59,7 +59,7 @@ app.post("/api/data", async (req, res) => {
 });
 
 async function getData() {
-  const client = await db.connect();
+  const client = await pool.connect();
   try {
     const res = await client.query('SELECT * FROM data');
     return res.rows;
@@ -72,7 +72,7 @@ async function getData() {
 }
 
 async function saveData(question) {
-  const client = await db.connect();
+  const client = await pool.connect();
   try {
     await client.query(
       "INSERT INTO question_stats(correct_answer, category, difficulty) VALUES($1, $2, $3)",
