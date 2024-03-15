@@ -1,20 +1,11 @@
 require("dotenv").config();
-const pgp = require("pg-promise")({
-  error: function (error, e) {
-    if (e.cn) {
-      // A connection-related error;
-      console.log("CN:", e.cn);
-      console.log("EVENT:", error.message || error);
-    }
-  },
-});
+const { Pool } = require('pg');
 
-const db = pgp({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false,
-    require: true
+    rejectUnauthorized: false
   }
 });
 
-module.exports = db;
+module.exports = pool;

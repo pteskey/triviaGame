@@ -1,7 +1,17 @@
-const db = require("./db");
+const pool = require("./db.js");
 
 async function calculateStats() {
-  let data = await db.any("SELECT * FROM question_stats");
+  const client = await pool.connect();
+  let data;
+
+  try {
+    const res = await client.query('SELECT * FROM question_stats');
+    data = res.rows;
+  } catch (err) {
+    console.error('Error executing query', err.stack);
+  } finally {
+    client.release();
+  }
 
   let totalQuestions = data.length;
   let correctAnswers = data.filter((q) => q.correct_answer).length;

@@ -56,22 +56,29 @@ app.post("/api/data", async (req, res) => {
 });
 
 async function getData() {
+  const client = await db.connect();
   try {
-    return await db.any("SELECT * FROM data");
+    const res = await client.query('SELECT * FROM data');
+    return res.rows;
   } catch (error) {
     console.error("Error reading from database:", error);
     return []; // Return an empty array if there was an error
+  } finally {
+    client.release();
   }
 }
 
 async function saveData(question) {
+  const client = await db.connect();
   try {
-    await db.none(
+    await client.query(
       "INSERT INTO question_stats(correct_answer, category, difficulty) VALUES($1, $2, $3)",
       [question.correctlyAnswered, question.category, question.difficulty]
     );
   } catch (error) {
     console.error("Error writing to database:", error);
+  } finally {
+    client.release();
   }
 }
 
