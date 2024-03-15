@@ -10,7 +10,7 @@ const pgp = require("pg-promise")({
 });
 
 const db = pgp({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL + "?ssl=true",
   ssl: {
     rejectUnauthorized: false
   }
