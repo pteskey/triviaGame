@@ -6,6 +6,15 @@ const cors = require("cors");
 const app = express();
 const PORT = 3000;
 app.set("view engine", "ejs");
+
+app.use(
+  cors({
+    origin: "https://trivia-challenge.onrender.com", // replace with the origin of your client
+    methods: ["GET", "POST"], // the methods you want to allow
+    allowedHeaders: ["Content-Type"], // the headers you want to allow
+  })
+);
+
 db.connect()
   .then((obj) => {
     obj.done(); // success, release the connection;
@@ -87,8 +96,6 @@ async function saveData(question) {
     console.error("Error writing to database:", error);
   }
 }
-
-app.use(cors());
 
 // Start the server
 app.listen(PORT, () => {
