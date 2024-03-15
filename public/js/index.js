@@ -204,7 +204,7 @@ async function fetchQuestions() {
 
 // Send data to local JSON server
 async function sendDataToDatabase(data) {
-  const response = await fetch("http://localhost:3000/api/data", {
+  const response = await fetch("https://trivia-challenge2024-ca738f26d60f.herokuapp.com/api/data", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
