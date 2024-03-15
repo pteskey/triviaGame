@@ -1,9 +1,9 @@
-const db = require("./public/js/db");
+const pool = require('./public/js/db.js');
 const express = require("express");
 const bodyParser = require("body-parser");
 const calculateStats = require("./public/js/calcdata");
 const app = express();
-const PORT = 3000;
+const port = process.env.PORT || 3000
 app.set("view engine", "ejs");
 
 app.get("/stats", async (req, res) => {
