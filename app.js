@@ -9,7 +9,7 @@ app.set("view engine", "ejs");
 
 app.use(
   cors({
-    origin: "https://trivia-challenge.onrender.com", // replace with the origin of your client
+    origin: "http://localhost:3000/api/data", // replace with the origin of your client
     methods: ["GET", "POST"], // the methods you want to allow
     allowedHeaders: ["Content-Type"], // the headers you want to allow
   })
