@@ -107,16 +107,18 @@ scoreFade = () => {
   scoreWrapper.classList.remove("fade-in");
   scoreWrapper.classList.add("fade-out-fast");
   setTimeout(() => {
+    scoreWrapper.style.display = "none";
     location.reload();
-  }, 450);
+  }, 500);
 };
 scoreFadeStats = () => {
   const scoreWrapper = document.getElementById("score-wrapper");
   scoreWrapper.classList.remove("fade-in");
   scoreWrapper.classList.add("fade-out-fast");
   setTimeout(() => {
+    scoreWrapper.style.display = "none";
     location.assign("/stats");
-  }, 450);
+  }, 500);
 };
 
 // Functions for 50/50 and Phone a Friend Lifelines

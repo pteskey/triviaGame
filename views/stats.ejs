@@ -15,43 +15,45 @@
 </head>
 
 <body class="fade-in">
-  <h1 class="titleText">Trivia Stats</h1>
-  <button id="next">
-    <img src="./images/icons8-arrow-100-right.png" alt="">
-  </button>
-  <button id="previous">
-    <img src="./images/icons8-arrow-100-left.png" alt="">
-  </button>
-  <div class="chart-container">
-    <div id="chart1" class="chart" style="display: none;">
-      <div class="chart-item">
-        <h2><span>Category Accuracy</span></h2>
-        <canvas id="accuracyByCategory"></canvas>
+  <div class="wrapper" id="wrapper">
+    <h1 class="titleText">Trivia Stats</h1>
+    <button id="next">
+      <img src="./images/icons8-arrow-100-right.png" alt="">
+    </button>
+    <button id="previous">
+      <img src="./images/icons8-arrow-100-left.png" alt="">
+    </button>
+    <div class="chart-container">
+      <div id="chart1" class="chart" style="display: none;">
+        <div class="chart-item">
+          <h2><span>Category Accuracy</span></h2>
+          <canvas id="accuracyByCategory"></canvas>
+        </div>
+      </div>
+      <div id="chart2" class="chart" style="display: none;">
+        <div class="chart-item">
+          <h2><span>Questions per Category</span></h2>
+          <canvas id="questionsByCategory"></canvas>
+        </div>
+      </div>
+      <div id="chart3" class="chart" style="display: none;">
+        <div class="chart-item">
+          <h2><span>Difficulty Accuracy</span></h2>
+          <canvas id="accuracyByDifficulty"></canvas>
+        </div>
+      </div>
+      <div id="chart4" class="chart" style="display: none;">
+        <div class="chart-item">
+          <h2><span>Questions per Difficulty</span></h2>
+          <canvas id="questionsByDifficulty"></canvas>
+        </div>
       </div>
     </div>
-    <div id="chart2" class="chart" style="display: none;">
-      <div class="chart-item">
-        <h2><span>Questions per Category</span></h2>
-        <canvas id="questionsByCategory"></canvas>
-      </div>
-    </div>
-    <div id="chart3" class="chart" style="display: none;">
-      <div class="chart-item">
-        <h2><span>Difficulty Accuracy</span></h2>
-        <canvas id="accuracyByDifficulty"></canvas>
-      </div>
-    </div>
-    <div id="chart4" class="chart" style="display: none;">
-      <div class="chart-item">
-        <h2><span>Questions per Difficulty</span></h2>
-        <canvas id="questionsByDifficulty"></canvas>
-      </div>
-    </div>
-  </div>
 
-  <footer>
-    <a href="/" id="btn" class="btn">Play Again</a>
-  </footer>
+    <footer>
+      <a href="/" id="btn" class="btn">Play Again</a>
+    </footer>
+  </div>
   <script>
     let data;
     <% if (typeof stats !== 'undefined' && stats !== null) { %>

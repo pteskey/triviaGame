@@ -393,6 +393,7 @@ document.getElementById("btn").addEventListener("click", function (event) {
   document.body.classList.add("fade-out");
 
   setTimeout(function () {
+    document.getElementById("wrapper").style.display = "none";
     window.location.href = event.target.href;
   }, 950);
 });
