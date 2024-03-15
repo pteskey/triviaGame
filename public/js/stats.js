@@ -132,12 +132,12 @@ const categoryBorderColorsArray = Object.values(categoryBorderColors);
 // Define font settings
 const chartFont = {
   size: 13,
-  family: "Roboto Condensed, sans-serif",
+  family: "Montserrat, sans-serif",
   weight: 500,
 };
 const chartTitle = {
   size: 18,
-  family: "Roboto Condensed, sans-serif",
+  family: "Montserrat, sans-serif",
   weight: 900,
 };
 

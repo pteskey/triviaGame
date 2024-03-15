@@ -9,7 +9,7 @@ body {
   justify-content: center;
   height: 100%;
   width: 100vw;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: #e5e5f7;
   background-image: radial-gradient(#000 0.5px, #e5e5f7 0.5px);
   background-size: 15px 15px;
@@ -173,7 +173,7 @@ h2 span {
   color: #111;
   cursor: pointer;
   display: flex;
-  font-family: inherit;
+  font-family: "Montserrat", sans-serif;
   font-size: 1em;
   font-weight: bold;
   height: 3em;

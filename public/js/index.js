@@ -108,7 +108,7 @@ scoreFade = () => {
   scoreWrapper.classList.add("fade-out-fast");
   setTimeout(() => {
     location.reload();
-  }, 500);
+  }, 450);
 };
 scoreFadeStats = () => {
   const scoreWrapper = document.getElementById("score-wrapper");
@@ -116,7 +116,7 @@ scoreFadeStats = () => {
   scoreWrapper.classList.add("fade-out-fast");
   setTimeout(() => {
     location.assign("/stats");
-  }, 500);
+  }, 450);
 };
 
 // Functions for 50/50 and Phone a Friend Lifelines
@@ -168,6 +168,15 @@ phoneAFriend = () => {
       break;
     case "hard":
       if (accuracy <= 70) {
+        friendAnswer = questions[qNumID].correctAnswer;
+      } else {
+        friendAnswer = randomIncorrectAnswer;
+      }
+      break;
+    case "random":
+      // Handle the "random" difficulty here
+      // You can use a similar approach to "medium" or "hard", or define your own logic
+      if (accuracy <= 80) { // for example
         friendAnswer = questions[qNumID].correctAnswer;
       } else {
         friendAnswer = randomIncorrectAnswer;
