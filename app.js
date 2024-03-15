@@ -4,12 +4,12 @@ const bodyParser = require("body-parser");
 const calculateStats = require("./public/js/calcdata");
 const cors = require("cors");
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 app.set("view engine", "ejs");
 
 app.use(
   cors({
-    origin: "http://localhost:3000/api/data", // replace with the origin of your client
+    origin: "http://localhost:8080", // replace with the origin of your client
     methods: ["GET", "POST"], // the methods you want to allow
     allowedHeaders: ["Content-Type"], // the headers you want to allow
   })
