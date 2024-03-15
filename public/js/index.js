@@ -29,7 +29,7 @@ openModal = () => {
   howto.style.display = "flex";
   setTimeout(() => {
     howto.style.opacity = "1";
-  }, 50);
+  }, 200);
 };
 closeModal = () => {
   const howto = document.getElementById("howto");
@@ -178,12 +178,20 @@ phoneAFriend = () => {
   friendText.innerText = `Your friend thinks the answer is: ${friendAnswer}`;
   document.getElementById("phoneAFriend").disabled = true;
   isPhoneAFriendUsed = true;
-  friendContainer.style.transform = "translateX(0)";
+
+  friendContainer.style.display = "flex";
+  setTimeout(() => {
+    friendContainer.style.opacity = "1";
+  }, 250);
 };
 
 closeFriend = () => {
   const friendContainer = document.getElementById("friend-wrapper");
-  friendContainer.style.transform = "translateX(-100%)";
+  friendContainer.style.opacity = "0";
+
+  setTimeout(() => {
+    friendContainer.style.display = "none";
+  }, 500);
 };
 
 // Fetch question data
