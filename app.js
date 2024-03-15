@@ -2,24 +2,9 @@ const db = require("./public/js/db");
 const express = require("express");
 const bodyParser = require("body-parser");
 const calculateStats = require("./public/js/calcdata");
-const cors = require("cors");
 const app = express();
 const PORT = 3000;
 app.set("view engine", "ejs");
-app.options("*", cors());
-
-db.connect()
-  .then((obj) => {
-    obj.done(); // success, release the connection;
-  })
-  .catch((error) => {
-    if (error.code === "ECONNRESET") {
-      console.log("Connection reset, retrying...");
-      return db.connect();
-    } else {
-      console.log("ERROR:", error.message || error);
-    }
-  });
 
 app.get("/stats", async (req, res) => {
   try {
